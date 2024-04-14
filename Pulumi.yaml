@@ -1,0 +1,10 @@
+name: cloudflare-iac
+runtime:
+  name: python
+  options:
+    virtualenv: .venv
+description: DNS configuration with Cloudflare
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: https://www.pulumi.com/ai/api/project/1a83bfc1-cffa-4e22-a05b-b19afd8e7470.zip

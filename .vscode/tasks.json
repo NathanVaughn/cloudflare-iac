@@ -1,0 +1,26 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "install",
+            "command": "poetry install --sync",
+            "type": "shell"
+        },
+        {
+            "label": "pre-commit",
+            "command": "poetry run pre-commit run --all-files",
+            "type": "shell",
+            "dependsOn": ["install"]
+        },
+        {
+            "label": "up",
+            "command": "pulumi up",
+            "type": "shell"
+        },
+        {
+            "label": "preview",
+            "command": "pulumi preview",
+            "type": "shell"
+        }
+    ]
+}
