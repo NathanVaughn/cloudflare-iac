@@ -1,11 +1,8 @@
 import http
-import os
 
 import pulumi_cloudflare as cloudflare
 
 from iac.config import CLOUDFLARE_ACCOUNT_ID, INVALID_IP
-
-THIS_DIR = os.path.dirname(__file__)
 
 # base resource name
 BRN = "lksg-me"
@@ -74,7 +71,7 @@ cloudflare.Record(
 )
 
 # root redirect rule
-root_redirect = cloudflare.Ruleset(
+cloudflare.Ruleset(
     f"{BRN}-root-redirect",
     name="Redirect all",
     kind="zone",
