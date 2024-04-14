@@ -3,7 +3,7 @@ import os
 
 import pulumi_cloudflare as cloudflare
 
-from iac.config import CLOUDFLARE_ACCOUNT_ID
+from iac.config import CLOUDFLARE_ACCOUNT_ID, INVALID_IP
 
 THIS_DIR = os.path.dirname(__file__)
 
@@ -12,7 +12,6 @@ BRN = "nvaughn-email"
 ZONE = "nvaughn.email"
 VANITY_EMAIL = f"nath@{ZONE}"
 PERSONAL_EMAIL = "nvaughn51@gmail.com"
-INVALID_IP = "10::"
 
 zone = cloudflare.Zone(
     f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
@@ -20,7 +19,7 @@ zone = cloudflare.Zone(
 
 zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
-root_record = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-root",
     name=ZONE,
     type="AAAA",
@@ -30,7 +29,7 @@ root_record = cloudflare.Record(
 )
 
 # sendgrid records
-sendgrid_record1 = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-sendgrid1",
     name="em2294",
     type="CNAME",
@@ -39,7 +38,7 @@ sendgrid_record1 = cloudflare.Record(
     zone_id=zone.id,
 )
 
-sendgrid_record2 = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-sendgrid2",
     name="s1._domainkey",
     type="CNAME",
@@ -48,7 +47,7 @@ sendgrid_record2 = cloudflare.Record(
     zone_id=zone.id,
 )
 
-sendgrid_record3 = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-sendgrid3",
     name="s2._domainkey",
     type="CNAME",
@@ -58,7 +57,7 @@ sendgrid_record3 = cloudflare.Record(
 )
 
 # https://developers.cloudflare.com/email-routing/setup/mta-sts/
-mta_sts_record = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-mta-sts",
     name="_mta-sts",
     type="CNAME",
@@ -78,7 +77,7 @@ mta_sts_worker_record = cloudflare.Record(
 )
 
 # MX records
-mx_record1 = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-mx1",
     name=zone.zone,
     type="MX",
@@ -87,7 +86,7 @@ mx_record1 = cloudflare.Record(
     zone_id=zone.id,
 )
 
-mx_record2 = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-mx2",
     name=zone.zone,
     type="MX",
@@ -96,7 +95,7 @@ mx_record2 = cloudflare.Record(
     zone_id=zone.id,
 )
 
-mx_record3 = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-mx3",
     name=zone.zone,
     type="MX",
@@ -106,7 +105,7 @@ mx_record3 = cloudflare.Record(
 )
 
 # dmarc and spf
-dmarc_record = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-dmarc",
     name="_dmarc",
     type="TXT",
@@ -114,7 +113,7 @@ dmarc_record = cloudflare.Record(
     zone_id=zone.id,
 )
 
-spf_record = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-spf",
     name=ZONE,
     type="TXT",
@@ -123,7 +122,7 @@ spf_record = cloudflare.Record(
 )
 
 # BIMI
-bimi_record = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-bimi",
     name="default._bimi",
     type="TXT",
@@ -132,7 +131,7 @@ bimi_record = cloudflare.Record(
 )
 
 # TLS reporting
-smtp_tls_record = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-smtp-tls",
     name="_smtp._tls",
     type="TXT",
@@ -141,7 +140,7 @@ smtp_tls_record = cloudflare.Record(
 )
 
 # have i been pwned verification
-hibp_record = cloudflare.Record(
+cloudflare.Record(
     f"{BRN}-record-hibp-verification",
     name=ZONE,
     type="TXT",
@@ -158,7 +157,7 @@ mta_sts_worker = cloudflare.WorkerScript(
     module=True,
 )
 
-mta_sts_worker_domain = cloudflare.WorkerDomain(
+cloudflare.WorkerDomain(
     f"{BRN}-mta-sts-worker-domain",
     account_id=zone.account_id,
     hostname=mta_sts_worker_record.hostname,
@@ -167,20 +166,20 @@ mta_sts_worker_domain = cloudflare.WorkerDomain(
 )
 
 # email forwarding
-email_routing_settings = cloudflare.EmailRoutingSettings(
+cloudflare.EmailRoutingSettings(
     f"{BRN}-email-routing-settings",
     zone_id=zone.id,
     skip_wizard=True,
     enabled=True,
 )
 
-email_routing_address = cloudflare.EmailRoutingAddress(
+cloudflare.EmailRoutingAddress(
     f"{BRN}-email-routing-address",
     account_id=zone.account_id,
     email=PERSONAL_EMAIL,
 )
 
-email_routing_rule = cloudflare.EmailRoutingRule(
+cloudflare.EmailRoutingRule(
     f"{BRN}-vanity_email_forward",
     name="Vanity Email Forward",
     matchers=[
@@ -199,7 +198,7 @@ email_routing_rule = cloudflare.EmailRoutingRule(
 
 
 # root redirect rule
-root_redirect = cloudflare.Ruleset(
+cloudflare.Ruleset(
     f"{BRN}-root-redirect",
     name="Redirect all",
     kind="zone",
