@@ -20,7 +20,8 @@
 				"actboy168.tasks",
 				"shardulm94.trailing-spaces",
 				"redhat.vscode-yaml",
-				"pulumi.pulumi-lsp-client"
+				"pulumi.pulumi-lsp-client",
+				"rangav.vscode-thunder-client"
 			]
         }
     }
