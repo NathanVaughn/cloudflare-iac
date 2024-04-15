@@ -162,7 +162,7 @@ cloudflare.ZoneSettingsOverride(
             nosniff=True,
             max_age=60 * 60 * 24 * 30 * 6,
         ),  # seconds in 6 months
-        security_level="low",
+        security_level="low",  # just static sites
         ssl="flexible",
     ),
     zone_id=zone.id,

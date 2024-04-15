@@ -1,0 +1,124 @@
+import http
+
+import pulumi_cloudflare as cloudflare
+
+from iac.config import CLOUDFLARE_ACCOUNT_ID, INVALID_IP
+
+# base resource name
+BRN = "nathanv-app"
+ZONE = "nathanv.app"
+
+
+zone = cloudflare.Zone(
+    f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
+)
+
+cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
+
+
+cloudflare.Record(
+    f"{BRN}-record-root",
+    name=ZONE,
+    type="AAAA",
+    value=INVALID_IP,
+    proxied=True,
+    zone_id=zone.id,
+)
+
+# have i been pwned verification
+cloudflare.Record(
+    f"{BRN}-record-hibp-verification",
+    name=ZONE,
+    type="TXT",
+    value="have-i-been-pwned-verification=dweb_sxmvyzv0drozr5fspuu67cxg",
+    zone_id=zone.id,
+)
+
+# email security
+cloudflare.Record(
+    f"{BRN}-record-dmarc",
+    name="_dmarc",
+    type="TXT",
+    value="v=DMARC1; p=reject; sp=reject;",
+    zone_id=zone.id,
+)
+
+cloudflare.Record(
+    f"{BRN}-record-spf",
+    name=ZONE,
+    type="TXT",
+    value="v=spf1 -all",
+    zone_id=zone.id,
+)
+
+cloudflare.Record(
+    f"{BRN}-record-domainkey",
+    name="*._domainkey",
+    type="TXT",
+    value="v=DKIM1; p=",
+    zone_id=zone.id,
+)
+
+
+cloudflare.ZoneSettingsOverride(
+    f"{BRN}-zone-settings",
+    settings=cloudflare.ZoneSettingsOverrideSettingsArgs(
+        always_online="on",
+        always_use_https="on",
+        automatic_https_rewrites="on",
+        brotli="on",
+        browser_cache_ttl=60 * 60 * 4,  # seconds in 4 hours
+        browser_check="off",
+        cache_level="aggressive",
+        challenge_ttl=60 * 60,  # seconds in an hour
+        early_hints="on",
+        email_obfuscation="on",
+        hotlink_protection="off",
+        http3="on",
+        ipv6="on",
+        minify=cloudflare.ZoneSettingsOverrideSettingsMinifyArgs(
+            html="on",
+            css="on",
+            js="on",
+            # was off for JS and CSS, need to monitor
+        ),
+        opportunistic_onion="on",
+        rocket_loader="off",  # this caused problems in the past
+        security_header=cloudflare.ZoneSettingsOverrideSettingsSecurityHeaderArgs(
+            enabled=True,
+            include_subdomains=True,
+            preload=True,
+            nosniff=True,
+            max_age=60 * 60 * 24 * 30 * 6,
+        ),  # seconds in 6 months
+        security_level="medium",
+        ssl="strict",
+    ),
+    zone_id=zone.id,
+)
+
+
+# root redirect rule
+cloudflare.Ruleset(
+    f"{BRN}-root-redirect",
+    name="Redirect all",
+    kind="zone",
+    phase="http_request_dynamic_redirect",
+    rules=[
+        cloudflare.RulesetRuleArgs(
+            action="redirect",
+            expression=f'(http.host eq "{ZONE}")',
+            enabled=True,
+            action_parameters=cloudflare.RulesetRuleActionParametersArgs(
+                from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
+                    status_code=http.HTTPStatus.PERMANENT_REDIRECT,
+                    target_url=cloudflare.RulesetRuleActionParametersFromValueTargetUrlArgs(
+                        value="https://nathanv.me"
+                    ),
+                    preserve_query_string=False,
+                )
+            ),
+        ),
+    ],
+    zone_id=zone.id,
+)
