@@ -1,28 +1,31 @@
 {
-	"image": "ghcr.io/nathanvaughn/devcontainers/python:3.12",
-	"features": {
-		"ghcr.io/devcontainers-contrib/features/pulumi:1": {}
-	},
+    "image": "ghcr.io/nathanvaughn/devcontainers/python:latest",
+    "features": {
+        "ghcr.io/devcontainers-contrib/features/pulumi:1": {}
+    },
     "customizations": {
         "vscode": {
             "extensions": [
-				"streetsidesoftware.code-spell-checker",
-				"tamasfe.even-better-toml",
-				"mhutchie.git-graph",
-				"donjayamanne.githistory",
-				"github.vscode-github-actions",
-				"spywhere.guides",
-				"yzhang.markdown-all-in-one",
-				"DavidAnson.vscode-markdownlint",
-				"ms-python.python",
-				"charliermarsh.ruff",
-				"sourcery.sourcery",
-				"actboy168.tasks",
-				"shardulm94.trailing-spaces",
-				"redhat.vscode-yaml",
-				"pulumi.pulumi-lsp-client",
-				"rangav.vscode-thunder-client"
-			]
+                "streetsidesoftware.code-spell-checker",
+                "tamasfe.even-better-toml",
+                "mhutchie.git-graph",
+                "donjayamanne.githistory",
+                "github.vscode-github-actions",
+                "spywhere.guides",
+                "yzhang.markdown-all-in-one",
+                "DavidAnson.vscode-markdownlint",
+                "ms-python.python",
+                "charliermarsh.ruff",
+                "sourcery.sourcery",
+                "actboy168.tasks",
+                "shardulm94.trailing-spaces",
+                "redhat.vscode-yaml",
+                "pulumi.pulumi-lsp-client",
+                "rangav.vscode-thunder-client"
+            ]
         }
-    }
+    },
+    "mounts": [
+        "source=devcontainer-profile,target=/home/vscode/,type=volume"
+    ]
 }
