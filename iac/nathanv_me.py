@@ -36,7 +36,6 @@ for pc in pages_configs:
     if pc.subdomain:
         domain = f"{pc.subdomain}.{ZONE}"
 
-    # create a project name
     project_name = domain.replace(".", "-")
 
     # create the pages domains and DNS records
@@ -68,7 +67,7 @@ for pc in pages_configs:
 
     cloudflare.Record(
         f"{BRN}-record-{pc.name}-www",
-        name=f"www.{pc.subdomain}",
+        name=f"www.{domain}",
         type="CNAME",
         value=f"{project_name}.pages.dev",
         proxied=True,
