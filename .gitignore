@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 Pulumi.prod.yaml
+temp.sh

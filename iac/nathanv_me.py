@@ -1,3 +1,5 @@
+from typing import NamedTuple
+
 import pulumi_cloudflare as cloudflare
 
 from iac.config import CLOUDFLARE_ACCOUNT_ID
@@ -7,49 +9,92 @@ BRN = "nathanv-me"
 ZONE = "nathanv.me"
 
 
+class PagesConfig(NamedTuple):
+    subdomain: str
+    name: str
+
+
+pages_configs = [
+    PagesConfig("", "homepage"),
+    PagesConfig("blog", "blog"),
+    PagesConfig("links", "links"),
+    PagesConfig("pay", "pay"),
+]
+
 zone = cloudflare.Zone(
     f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
 )
 
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
+
 # cloudflare pages
-cloudflare.Record(
-    f"{BRN}-record-homepage",
-    name=ZONE,
-    type="CNAME",
-    value="nathanv-me.pages.dev",
-    proxied=True,
-    zone_id=zone.id,
-)
+for pc in pages_configs:
+    domain = ZONE
 
-cloudflare.Record(
-    f"{BRN}-record-homepage-www",
-    name="www",
-    type="CNAME",
-    value="nathanv-me.pages.dev",
-    proxied=True,
-    zone_id=zone.id,
-)
+    # build the domain name of the page
+    if pc.subdomain:
+        domain = f"{pc.subdomain}.{ZONE}"
 
-other_pages = ["blog", "links", "pay"]
-for op in other_pages:
+    project_name = domain.replace(".", "-")
+
+    # create the pages domains and DNS records
+
+    # root
+    cloudflare.PagesDomain(
+        f"{BRN}-pages-domain-{pc.name}",
+        account_id=zone.account_id,
+        domain=domain,
+        project_name=project_name,
+    )
+
     cloudflare.Record(
-        f"{BRN}-record-{op}",
-        name=op,
+        f"{BRN}-record-{pc.name}",
+        name=domain,
         type="CNAME",
-        value=f"{op}-nathanv-me.pages.dev",
+        value=f"{project_name}.pages.dev",
         proxied=True,
         zone_id=zone.id,
     )
 
+    # www
+    cloudflare.PagesDomain(
+        f"{BRN}-pages-domain-www-{pc.name}",
+        account_id=zone.account_id,
+        domain=f"www.{domain}",
+        project_name=project_name,
+    )
+
     cloudflare.Record(
-        f"{BRN}-record-{op}-www",
-        name=f"www.{op}",
+        f"{BRN}-record-{pc.name}-www",
+        name=f"www.{domain}",
         type="CNAME",
-        value=f"{op}-nathanv-me.pages.dev",
+        value=f"{project_name}.pages.dev",
         proxied=True,
         zone_id=zone.id,
+    )
+
+    # create the project
+    branch = "main"
+    cloudflare.PagesProject(
+        f"{BRN}-pages-project-{pc.name}",
+        account_id=zone.account_id,
+        name=project_name,
+        build_config=cloudflare.PagesProjectBuildConfigArgs(
+            build_caching=True, build_command="npm run build", destination_dir="public"
+        ),
+        production_branch=branch,
+        source=cloudflare.PagesProjectSourceArgs(
+            type="github",
+            config=cloudflare.PagesProjectSourceConfigArgs(
+                owner="NathanVaughn",
+                repo_name=domain,
+                production_branch=branch,
+                pr_comments_enabled=True,
+                deployments_enabled=True,
+                production_deployment_enabled=True,
+            ),
+        ),
     )
 
 # github verification

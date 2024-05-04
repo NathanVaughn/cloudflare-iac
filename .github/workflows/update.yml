@@ -21,7 +21,8 @@ jobs:
           pipx install poetry
           pipx install vscode-task-runner
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: poetry
@@ -29,7 +30,8 @@ jobs:
       - name: Install dependencies
         run: vtr install
 
-      - uses: pulumi/actions@v5
+      - name: Pulumi Update
+        uses: pulumi/actions@v5
         with:
           command: up
           stack-name: prod

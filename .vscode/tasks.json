@@ -14,12 +14,12 @@
         },
         {
             "label": "up",
-            "command": "pulumi up",
+            "command": "python wrapper.py pulumi up",
             "type": "shell"
         },
         {
             "label": "preview",
-            "command": "pulumi preview",
+            "command": "python wrapper.py pulumi preview",
             "type": "shell"
         }
     ]
