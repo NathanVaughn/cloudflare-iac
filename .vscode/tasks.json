@@ -13,13 +13,13 @@
             "dependsOn": ["install"]
         },
         {
-            "label": "up",
-            "command": "python wrapper.py pulumi up",
+            "label": "update",
+            "command": "python wrapper.py pulumi update --stack prod",
             "type": "shell"
         },
         {
             "label": "preview",
-            "command": "python wrapper.py pulumi preview",
+            "command": "python wrapper.py pulumi preview --stack prod",
             "type": "shell"
         }
     ]
