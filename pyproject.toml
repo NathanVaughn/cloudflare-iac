@@ -12,11 +12,11 @@
 
 [tool.poetry.dependencies]
     python            = "^3.12"
-    pulumi            = "^3.115.1"
-    pulumi-cloudflare = "^5.27.0"
+    pulumi            = "^3.116.0"
+    pulumi-cloudflare = "^5.28.0"
 
 [tool.poetry.group.dev.dependencies]
-    pre-commit = "^3.7.0"
+    pre-commit = "^3.7.1"
 
 [tool.pyright]
     typeCheckingMode           = "basic"
