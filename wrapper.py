@@ -14,6 +14,8 @@ def read_env() -> dict:
         for line in f:
             key, value = line.strip().split("=", 1)
             env[key] = value
+
+    print(", ".join(list(env.keys())) + " loaded from .env")
     return env
 
 
