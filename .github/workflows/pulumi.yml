@@ -42,4 +42,4 @@ jobs:
 
       - name: Pulumi Update
         if: github.event_name == 'push'
-        run: vtr updatepg
+        run: vtr update
