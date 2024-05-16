@@ -19,10 +19,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install poetry/vscode-task-runner
-        run: |
-          pipx install poetry
-          pipx install vscode-task-runner
+      - name: Install Poetry/vscode-task-runner
+        uses: threeal/pipx-install-action@v1.0.0
+        with:
+          packages: |
+            poetry
+            vscode-task-runner
 
       - name: Setup Python
         uses: actions/setup-python@v5
