@@ -14,12 +14,12 @@
         },
         {
             "label": "update",
-            "command": "python wrapper.py pulumi update --stack prod",
+            "command": "python wrapper.py pulumi update --stack prod --yes",
             "type": "shell"
         },
         {
             "label": "preview",
-            "command": "python wrapper.py pulumi preview --stack prod",
+            "command": "python wrapper.py pulumi preview --stack prod --yes",
             "type": "shell"
         }
     ]

@@ -32,7 +32,8 @@ def main():  # sourcery skip: dict-assign-update-to-union
     print("> " + " ".join(cmd))
 
     # add poetry run to get python environment
-    subprocess.run(["poetry", "run"] + cmd, env=new_env)
+    proc = subprocess.run(["poetry", "run"] + cmd, env=new_env)
+    sys.exit(proc.returncode)
 
 
 if __name__ == "__main__":
