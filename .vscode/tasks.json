@@ -19,7 +19,7 @@
         },
         {
             "label": "preview",
-            "command": "python wrapper.py pulumi preview --stack prod --yes",
+            "command": "python wrapper.py pulumi preview --stack prod",
             "type": "shell"
         }
     ]
