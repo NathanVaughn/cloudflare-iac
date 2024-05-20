@@ -6,16 +6,32 @@ import subprocess
 import sys
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+ENV_FILE = os.path.join(THIS_DIR, ".env")
 
 
 def read_env() -> dict:
+    # check if file exists
+    if not os.path.isfile(ENV_FILE):
+        print("WARNING: .env file not found")
+        return {}
+
     env = {}
-    with open(os.path.join(THIS_DIR, ".env")) as f:
-        for line in f:
+
+    with open(ENV_FILE) as fp:
+        for line in fp:
+            # skip empty or comment lines
+            if line.strip() == "" or line.strip().startswith("#"):
+                continue
+
+            # split key and value
             key, value = line.strip().split("=", 1)
             env[key] = value
 
-    print(", ".join(list(env.keys())) + " loaded from .env")
+    if env:
+        print(", ".join(list(env.keys())) + " loaded from .env")
+    else:
+        print("No environment variables loaded from .env")
+
     return env
 
 
