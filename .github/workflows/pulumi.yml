@@ -33,7 +33,11 @@ jobs:
           cache: poetry
 
       - name: Setup secrets
-        run: echo "${{ secrets.ENVIRONMENT_FILE }}" > .env
+        # https://stackoverflow.com/a/7875598/9944427
+        run: |
+          cat > ./.env << EOL
+          ${{ secrets.ENVIRONMENT_FILE }}
+          EOL
 
       - name: Install dependencies
         run: vtr install
