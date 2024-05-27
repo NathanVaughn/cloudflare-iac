@@ -1,15 +1,15 @@
-import http
 import os
 
 import pulumi_cloudflare as cloudflare
 
+from iac import utils
 from iac.config import CLOUDFLARE_ACCOUNT_ID, INVALID_IP
 
-THIS_DIR = os.path.dirname(__file__)
+FILES_DIR = os.path.join(os.path.dirname(__file__), "..", "files")
 
-# base resource name
-BRN = "nvaughn-email"
 ZONE = "nvaughn.email"
+BRN = utils.zone_to_name(ZONE)
+
 VANITY_EMAIL = f"nath@{ZONE}"
 PERSONAL_EMAIL = "nvaughn51@gmail.com"
 
@@ -18,15 +18,6 @@ zone = cloudflare.Zone(
 )
 
 zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
-
-cloudflare.Record(
-    f"{BRN}-record-root",
-    name=ZONE,
-    type="AAAA",
-    value=INVALID_IP,
-    proxied=True,
-    zone_id=zone.id,
-)
 
 # sendgrid records
 cloudflare.Record(
@@ -140,20 +131,14 @@ cloudflare.Record(
 )
 
 # have i been pwned verification
-cloudflare.Record(
-    f"{BRN}-record-hibp-verification",
-    name=ZONE,
-    type="TXT",
-    value="have-i-been-pwned-verification=dweb_r05p6qt6pohhgwdcxp96ufk7",
-    zone_id=zone.id,
-)
+utils.create_hibp_verification(zone.id, ZONE, "dweb_r05p6qt6pohhgwdcxp96ufk7")
 
 # MTA-STS worker
 mta_sts_worker = cloudflare.WorkerScript(
     f"{BRN}-mta-sts-worker",
     account_id=zone.account_id,
     name="nvaughnemail-mta-sts",
-    content=open(os.path.join(THIS_DIR, "nvaughnemail-mta-sts.js")).read(),
+    content=open(os.path.join(FILES_DIR, "nvaughnemail-mta-sts.js")).read(),
     module=True,
 )
 
@@ -196,28 +181,5 @@ cloudflare.EmailRoutingRule(
     zone_id=zone.id,
 )
 
-
 # root redirect rule
-cloudflare.Ruleset(
-    f"{BRN}-root-redirect",
-    name="Redirect all",
-    kind="zone",
-    phase="http_request_dynamic_redirect",
-    rules=[
-        cloudflare.RulesetRuleArgs(
-            action="redirect",
-            expression=f'(http.host eq "{ZONE}")',
-            enabled=True,
-            action_parameters=cloudflare.RulesetRuleActionParametersArgs(
-                from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
-                    status_code=http.HTTPStatus.PERMANENT_REDIRECT,
-                    target_url=cloudflare.RulesetRuleActionParametersFromValueTargetUrlArgs(
-                        value="https://nathanv.me"
-                    ),
-                    preserve_query_string=False,
-                )
-            ),
-        ),
-    ],
-    zone_id=zone.id,
-)
+utils.create_root_redirect(zone.id, ZONE, "https://nathanv.me")

@@ -2,11 +2,11 @@ from typing import NamedTuple
 
 import pulumi_cloudflare as cloudflare
 
+from iac import utils
 from iac.config import CLOUDFLARE_ACCOUNT_ID
 
-# base resource name
-BRN = "nathanv-me"
 ZONE = "nathanv.me"
+BRN = utils.zone_to_name(ZONE)
 
 
 class PagesConfig(NamedTuple):
@@ -36,7 +36,7 @@ for pc in pages_configs:
     if pc.subdomain:
         domain = f"{pc.subdomain}.{ZONE}"
 
-    project_name = domain.replace(".", "-")
+    project_name = utils.zone_to_name(domain)
 
     # create the pages domains and DNS records
 
@@ -107,13 +107,7 @@ cloudflare.Record(
 )
 
 # have i been pwned verification
-cloudflare.Record(
-    f"{BRN}-record-hibp-verification",
-    name=ZONE,
-    type="TXT",
-    value="have-i-been-pwned-verification=dweb_ze91kvkz82u3kj0ejw0l1pla",
-    zone_id=zone.id,
-)
+utils.create_hibp_verification(zone.id, ZONE, "dweb_ze91kvkz82u3kj0ejw0l1pla")
 
 # google site verification
 cloudflare.Record(
@@ -154,31 +148,9 @@ cloudflare.Record(
 )
 
 # email security
-cloudflare.Record(
-    f"{BRN}-record-dmarc",
-    name="_dmarc",
-    type="TXT",
-    value="v=DMARC1; p=reject; sp=reject;",
-    zone_id=zone.id,
-)
+utils.reject_emails(zone.id, ZONE)
 
-cloudflare.Record(
-    f"{BRN}-record-spf",
-    name=ZONE,
-    type="TXT",
-    value="v=spf1 -all",
-    zone_id=zone.id,
-)
-
-cloudflare.Record(
-    f"{BRN}-record-domainkey",
-    name="*._domainkey",
-    type="TXT",
-    value="v=DKIM1; p=",
-    zone_id=zone.id,
-)
-
-
+# overall zone settings
 cloudflare.ZoneSettingsOverride(
     f"{BRN}-zone-settings",
     settings=cloudflare.ZoneSettingsOverrideSettingsArgs(
