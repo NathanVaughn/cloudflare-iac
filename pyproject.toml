@@ -12,7 +12,7 @@
 
 [tool.poetry.dependencies]
     python            = "^3.12"
-    pulumi            = "^3.118.0"
+    pulumi            = "^3.119.0"
     pulumi-cloudflare = "^5.30.0"
 
 [tool.poetry.group.dev.dependencies]
