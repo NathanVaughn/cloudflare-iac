@@ -37,4 +37,4 @@ cloudflare.Record(
 utils.reject_emails(zone.id, ZONE)
 
 # root redirect rule
-utils.create_root_redirect(zone.id, ZONE, "https://links.nathanv.me")
+utils.create_root_redirect(zone.id, ZONE, "https://links.nathanv.me", all_traffic=True)

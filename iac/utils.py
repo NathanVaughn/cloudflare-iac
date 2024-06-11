@@ -46,7 +46,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
 
 
 def create_root_redirect(
-    zone_id: pulumi.Input[str], zone_name: str, target: str
+    zone_id: pulumi.Input[str], zone_name: str, target: str, all_traffic: bool = False
 ) -> None:
     """
     Create a root redirect rule.
@@ -62,6 +62,10 @@ def create_root_redirect(
         zone_id=zone_id,
     )
 
+    expression = f'(http.host eq "{zone_name}")'
+    if all_traffic:
+        expression = "true"
+
     cloudflare.Ruleset(
         f"{brn}-root-redirect",
         name="Redirect all",
@@ -70,7 +74,7 @@ def create_root_redirect(
         rules=[
             cloudflare.RulesetRuleArgs(
                 action="redirect",
-                expression=f'(http.host eq "{zone_name}")',
+                expression=expression,
                 enabled=True,
                 action_parameters=cloudflare.RulesetRuleActionParametersArgs(
                     from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
