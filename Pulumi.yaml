@@ -2,7 +2,10 @@ name: cloudflare-iac
 runtime:
   name: python
   options:
+    toolchain: poetry
     virtualenv: .venv
+    # typechecker: pyright
+    # handle this ourselves with pre-commit
 description: DNS configuration with Cloudflare
 config:
   pulumi:tags:
