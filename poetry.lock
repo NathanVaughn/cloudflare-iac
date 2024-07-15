@@ -258,12 +258,12 @@ files = [
 
 [[package]]
 name = "pulumi"
-version = "3.122.0"
+version = "3.124.0"
 description = "Pulumi's Python SDK"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi-3.122.0-py3-none-any.whl", hash = "sha256:278ca09f78f4e00cf0d6badb860430b056423bae96eee263ddbb45d529e6478e"},
+    {file = "pulumi-3.124.0-py3-none-any.whl", hash = "sha256:f1adecc0d3bb8197ee5405547ad1af2ac669e55d08d6b6ac01acbccbb2344618"},
 ]
 
 [package.dependencies]
@@ -276,13 +276,13 @@ six = ">=1.12,<2.0"
 
 [[package]]
 name = "pulumi-cloudflare"
-version = "5.33.1"
+version = "5.34.0"
 description = "A Pulumi package for creating and managing Cloudflare cloud resources."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi_cloudflare-5.33.1-py3-none-any.whl", hash = "sha256:10059c5697d29d2d643ac6a2233d9ed0e5b30d2e8f923eda64d670c3e65c5441"},
-    {file = "pulumi_cloudflare-5.33.1.tar.gz", hash = "sha256:b32142d9dd5db6367069b3cb68769b53d753226bc8f079c3bc798ca092444ecb"},
+    {file = "pulumi_cloudflare-5.34.0-py3-none-any.whl", hash = "sha256:fa13a2cd89bdbb4fa364f84681a6f58f51e7221f930a9e89ed041ceca51be447"},
+    {file = "pulumi_cloudflare-5.34.0.tar.gz", hash = "sha256:2a258aec3bd47f29e5f786bdff098bc4d50bfd33aae5dc8ea09bd6271de7a1c7"},
 ]
 
 [package.dependencies]
@@ -411,4 +411,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "356b6ee32bbef897e5ada590510ec7efa8d74e57eee47f03d8af9855492f7326"
+content-hash = "04f8e89a10fd0b73c19f979fb242ab525586742c04d3e891e504cab1c03df5cb"
