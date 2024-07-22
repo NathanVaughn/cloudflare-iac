@@ -1,7 +1,7 @@
 {
-    "image": "ghcr.io/nathanvaughn/devcontainers/python:latest",
-    "features": {
-        "ghcr.io/devcontainers-contrib/features/pulumi:1": {}
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": ".."
     },
     "customizations": {
         "vscode": {
