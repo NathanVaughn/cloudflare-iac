@@ -22,21 +22,38 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Container
-        uses: devcontainers/ci@v0.3
+      - name: Install Poetry/vscode-task-runner
+        uses: threeal/pipx-install-action@v1.0.0
         with:
-          runCmd: |
-            echo "${{ secrets.ENVIRONMENT_FILE }}" > .env
-            vtr install
+          packages: |
+            poetry
+            vscode-task-runner
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: poetry
+
+      - name: Get Pulumi Version
+        id: pulumi_version
+        run: echo "pulumi_version=$(python scripts/get_pulumi_version.py)" >> "$GITHUB_OUTPUT"
+
+      - name: Install Pulumi
+        uses: pulumi/actions@v5
+        with:
+          pulumi-version: ${{ steps.pulumi_version.outputs.pulumi_version }}
+
+      - name: Setup secrets
+        run: echo "${{ secrets.ENVIRONMENT_FILE }}" > .env
+
+      - name: Install dependencies
+        run: vtr install
 
       - name: Pulumi Preview
         if: contains(github.event_name, 'pull_request')
-        uses: devcontainers/ci@v0.3
-        with:
-          runCmd: vtr preview
+        run: vtr preview
 
       - name: Pulumi Update
         if: github.event_name == 'push'
-        uses: devcontainers/ci@v0.3
-        with:
-          runCmd: vtr update
+        run: vtr update
