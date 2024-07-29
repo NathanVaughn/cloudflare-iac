@@ -220,13 +220,13 @@ type = ["mypy (>=1.8)"]
 
 [[package]]
 name = "pre-commit"
-version = "3.7.1"
+version = "3.8.0"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pre_commit-3.7.1-py2.py3-none-any.whl", hash = "sha256:fae36fd1d7ad7d6a5a1c0b0d5adb2ed1a3bda5a21bf6c3e5372073d7a11cd4c5"},
-    {file = "pre_commit-3.7.1.tar.gz", hash = "sha256:8ca3ad567bc78a4972a3f1a477e94a79d4597e8140a6e0b651c5e33899c3654a"},
+    {file = "pre_commit-3.8.0-py2.py3-none-any.whl", hash = "sha256:9a90a53bf82fdd8778d58085faf8d83df56e40dfe18f45b19446e26bf1b3a63f"},
+    {file = "pre_commit-3.8.0.tar.gz", hash = "sha256:8bb6494d4a20423842e198980c9ecf9f96607a07ea29549e180eef9ae80fe7af"},
 ]
 
 [package.dependencies]
@@ -258,12 +258,12 @@ files = [
 
 [[package]]
 name = "pulumi"
-version = "3.125.0"
+version = "3.127.0"
 description = "Pulumi's Python SDK"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi-3.125.0-py3-none-any.whl", hash = "sha256:755fc3d62fef99fa0c754cfeca411445efe27a5598920740a08ee83f769340b1"},
+    {file = "pulumi-3.127.0-py3-none-any.whl", hash = "sha256:0b63ac7ac938cb7facf1317f94453b0b6a061f6c6197229f255de30af5b86aae"},
 ]
 
 [package.dependencies]
@@ -276,13 +276,13 @@ six = ">=1.12,<2.0"
 
 [[package]]
 name = "pulumi-cloudflare"
-version = "5.34.0"
+version = "5.35.0"
 description = "A Pulumi package for creating and managing Cloudflare cloud resources."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi_cloudflare-5.34.0-py3-none-any.whl", hash = "sha256:fa13a2cd89bdbb4fa364f84681a6f58f51e7221f930a9e89ed041ceca51be447"},
-    {file = "pulumi_cloudflare-5.34.0.tar.gz", hash = "sha256:2a258aec3bd47f29e5f786bdff098bc4d50bfd33aae5dc8ea09bd6271de7a1c7"},
+    {file = "pulumi_cloudflare-5.35.0-py3-none-any.whl", hash = "sha256:ce8526e6130976608856557c537b5cb86d748e45d5922d3e98af4ba5ca83c864"},
+    {file = "pulumi_cloudflare-5.35.0.tar.gz", hash = "sha256:87aab5fd72c7ec4bd6664f233baeffe0a4120f8fc30aacbfef7af5029f8c98cb"},
 ]
 
 [package.dependencies]
@@ -410,4 +410,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "14da9e7114271c86a1a80c66c71c566295b1269c207de30ad5eb79078e7c37af"
+content-hash = "331c435604e6fd1683f0702992a56c101cc7284c2bd58dd0662038f092dc6845"
