@@ -4,7 +4,7 @@
     description  = "My CloudFlare configuration as code"
     license      = "MIT"
     readme       = "README.md"
-    authors      = ["Nathan Vaughn <nvaughn51@gmail.com>"]
+    authors      = ["Nathan Vaughn <nath@nvaughn.email>"]
     homepage     = "https://github.com/nathanvaughn/cloudflare-iac"
     repository   = "https://github.com/nathanvaughn/cloudflare-iac.git"
     package-mode = false
