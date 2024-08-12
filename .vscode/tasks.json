@@ -14,7 +14,7 @@
         },
         {
             "label": "update",
-            "command": "python wrapper.py pulumi update --stack prod --yes",
+            "command": "python wrapper.py pulumi update --stack prod",
             "type": "shell"
         },
         {
