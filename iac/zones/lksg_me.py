@@ -19,7 +19,7 @@ for oc in old_cnames:
         f"{BRN}-record-{oc}",
         name=oc,
         type="CNAME",
-        value=ZONE,
+        content=ZONE,
         proxied=True,
         zone_id=zone.id,
     )
@@ -29,7 +29,7 @@ cloudflare.Record(
     f"{BRN}-record-github-verification",
     name="_github-challenge-linkspring",
     type="TXT",
-    value="45d26e5df8",
+    content="45d26e5df8",
     zone_id=zone.id,
 )
 

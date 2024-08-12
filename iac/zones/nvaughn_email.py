@@ -24,7 +24,7 @@ cloudflare.Record(
     f"{BRN}-record-sendgrid1",
     name="em2294",
     type="CNAME",
-    value="u14911081.wl082.sendgrid.net",
+    content="u14911081.wl082.sendgrid.net",
     proxied=False,
     zone_id=zone.id,
 )
@@ -33,7 +33,7 @@ cloudflare.Record(
     f"{BRN}-record-sendgrid2",
     name="s1._domainkey",
     type="CNAME",
-    value="s1.domainkey.u14911081.wl082.sendgrid.net",
+    content="s1.domainkey.u14911081.wl082.sendgrid.net",
     proxied=False,
     zone_id=zone.id,
 )
@@ -42,7 +42,7 @@ cloudflare.Record(
     f"{BRN}-record-sendgrid3",
     name="s2._domainkey",
     type="CNAME",
-    value="s2.domainkey.u14911081.wl082.sendgrid.net",
+    content="s2.domainkey.u14911081.wl082.sendgrid.net",
     proxied=False,
     zone_id=zone.id,
 )
@@ -52,7 +52,7 @@ cloudflare.Record(
     f"{BRN}-record-mta-sts",
     name="_mta-sts",
     type="CNAME",
-    value="_mta-sts.mx.cloudflare.net",
+    content="_mta-sts.mx.cloudflare.net",
     proxied=False,
     zone_id=zone.id,
 )
@@ -62,7 +62,7 @@ mta_sts_worker_record = cloudflare.Record(
     f"{BRN}-record-mta-sts-worker",
     name="mta-sts",
     type="AAAA",
-    value=INVALID_IP,
+    content=INVALID_IP,
     proxied=True,
     zone_id=zone.id,
 )
@@ -72,7 +72,7 @@ cloudflare.Record(
     f"{BRN}-record-mx1",
     name=zone.zone,
     type="MX",
-    value="route1.mx.cloudflare.net",
+    content="route1.mx.cloudflare.net",
     priority=38,
     zone_id=zone.id,
 )
@@ -81,7 +81,7 @@ cloudflare.Record(
     f"{BRN}-record-mx2",
     name=zone.zone,
     type="MX",
-    value="route2.mx.cloudflare.net",
+    content="route2.mx.cloudflare.net",
     priority=70,
     zone_id=zone.id,
 )
@@ -90,7 +90,7 @@ cloudflare.Record(
     f"{BRN}-record-mx3",
     name=zone.zone,
     type="MX",
-    value="route3.mx.cloudflare.net",
+    content="route3.mx.cloudflare.net",
     priority=2,
     zone_id=zone.id,
 )
@@ -100,7 +100,7 @@ cloudflare.Record(
     f"{BRN}-record-dmarc",
     name="_dmarc",
     type="TXT",
-    value="v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:8f1ceab69df742f2a564c0a55b6eec75@dmarc-reports.cloudflare.net",
+    content="v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:8f1ceab69df742f2a564c0a55b6eec75@dmarc-reports.cloudflare.net",
     zone_id=zone.id,
 )
 
@@ -108,7 +108,7 @@ cloudflare.Record(
     f"{BRN}-record-spf",
     name=ZONE,
     type="TXT",
-    value="v=spf1 include:_spf.mx.cloudflare.net -all",
+    content="v=spf1 include:_spf.mx.cloudflare.net -all",
     zone_id=zone.id,
 )
 
@@ -117,7 +117,7 @@ cloudflare.Record(
     f"{BRN}-record-bimi",
     name="default._bimi",
     type="TXT",
-    value="v=BIMI1; l=https://nathanv.me/img/theme-colors/red.svg",
+    content="v=BIMI1; l=https://nathanv.me/img/theme-colors/red.svg",
     zone_id=zone.id,
 )
 
@@ -126,7 +126,7 @@ cloudflare.Record(
     f"{BRN}-record-smtp-tls",
     name="_smtp._tls",
     type="TXT",
-    value=f"v=TLSRPTv1; rua=mailto:{VANITY_EMAIL}",
+    content=f"v=TLSRPTv1; rua=mailto:{VANITY_EMAIL}",
     zone_id=zone.id,
 )
 
@@ -134,7 +134,7 @@ cloudflare.Record(
 utils.create_hibp_verification(zone.id, ZONE, "dweb_r05p6qt6pohhgwdcxp96ufk7")
 
 # MTA-STS worker
-mta_sts_worker = cloudflare.WorkerScript(
+mta_sts_worker = cloudflare.WorkersScript(
     f"{BRN}-mta-sts-worker",
     account_id=zone.account_id,
     name="nvaughnemail-mta-sts",
@@ -142,7 +142,7 @@ mta_sts_worker = cloudflare.WorkerScript(
     module=True,
 )
 
-cloudflare.WorkerDomain(
+cloudflare.WorkersDomain(
     f"{BRN}-mta-sts-worker-domain",
     account_id=zone.account_id,
     hostname=mta_sts_worker_record.hostname,

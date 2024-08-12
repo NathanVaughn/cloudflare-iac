@@ -52,7 +52,7 @@ for pc in pages_configs:
         f"{BRN}-record-{pc.name}",
         name=domain,
         type="CNAME",
-        value=f"{project_name}.pages.dev",
+        content=f"{project_name}.pages.dev",
         proxied=True,
         zone_id=zone.id,
     )
@@ -69,7 +69,7 @@ for pc in pages_configs:
         f"{BRN}-record-{pc.name}-www",
         name=f"www.{domain}",
         type="CNAME",
-        value=f"{project_name}.pages.dev",
+        content=f"{project_name}.pages.dev",
         proxied=True,
         zone_id=zone.id,
     )
@@ -102,7 +102,7 @@ cloudflare.Record(
     f"{BRN}-record-github-pages-verification",
     name="_github-pages-challenge-nathanvaughn",
     type="TXT",
-    value="61c0f594d3a99e1767d97f89802854",
+    content="61c0f594d3a99e1767d97f89802854",
     zone_id=zone.id,
 )
 
@@ -114,7 +114,7 @@ cloudflare.Record(
     f"{BRN}-record-google-verification",
     name=ZONE,
     type="TXT",
-    value="google-site-verification=Z6heCb4QQucy-rAE6o7sRxZDry812WeO1u-ef5eY5Ys",
+    content="google-site-verification=Z6heCb4QQucy-rAE6o7sRxZDry812WeO1u-ef5eY5Ys",
     zone_id=zone.id,
 )
 
@@ -123,7 +123,7 @@ cloudflare.Record(
     f"{BRN}-record-keybase-verification",
     name=ZONE,
     type="TXT",
-    value="keybase-site-verification=yVOcfmhiYwOvGp2TJwUamoeF-mht3WFhkZayPNahuhQ",
+    content="keybase-site-verification=yVOcfmhiYwOvGp2TJwUamoeF-mht3WFhkZayPNahuhQ",
     zone_id=zone.id,
 )
 
@@ -132,7 +132,7 @@ cloudflare.Record(
     f"{BRN}-record-dub-co",
     name="go",
     type="CNAME",
-    value="cname.dub.co",
+    content="cname.dub.co",
     proxied=False,
     zone_id=zone.id,
 )
@@ -142,7 +142,7 @@ cloudflare.Record(
     f"{BRN}-record-r2",
     name="files",
     type="CNAME",
-    value="public.r2.dev",
+    content="public.r2.dev",
     proxied=True,
     zone_id=zone.id,
 )
