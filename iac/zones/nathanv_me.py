@@ -167,9 +167,10 @@ cloudflare.ZoneSettingsOverride(
         hotlink_protection="off",
         http3="on",
         ipv6="on",
-        minify=cloudflare.ZoneSettingsOverrideSettingsMinifyArgs(
-            html="on", css="on", js="on"
-        ),
+        # updating this was causing errors with "__default" field schema changes
+        # minify=cloudflare.ZoneSettingsOverrideSettingsMinifyArgs(
+        #     html="on", css="on", js="on"
+        # ),
         opportunistic_onion="on",
         rocket_loader="off",  # this caused problems in the past
         security_header=cloudflare.ZoneSettingsOverrideSettingsSecurityHeaderArgs(
