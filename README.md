@@ -39,4 +39,5 @@ python wrapper.py pulumi import cloudflare:index/<resource type> <resource name>
 
 Alternatively, this can be done in [bulk](https://www.pulumi.com/learn/importing/bulk-importing/).
 
-Use the [Cloudflare API](https://developers.cloudflare.com/api/) to find resource IDs.
+Use the [Cloudflare API](https://developers.cloudflare.com/api/) to find
+resource IDs.

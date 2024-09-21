@@ -22,18 +22,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Poetry/vscode-task-runner
-        uses: threeal/pipx-install-action@v1.0.0
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
         with:
-          packages: |
-            poetry
-            vscode-task-runner
+          enable-cache: true
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: poetry
+      - name: Install vscode-task-runner
+        run: uv tool install vscode-task-runner
 
       - name: Get Pulumi Version
         id: pulumi_version
