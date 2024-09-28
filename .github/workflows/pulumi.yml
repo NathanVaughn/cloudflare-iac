@@ -40,7 +40,7 @@ jobs:
         run: echo "pulumi_version=$(python scripts/get_pulumi_version.py)" >> "$GITHUB_OUTPUT"
 
       - name: Install Pulumi
-        uses: pulumi/actions@v5
+        uses: pulumi/actions@v6
         with:
           pulumi-version: ${{ steps.pulumi_version.outputs.pulumi_version }}
 
