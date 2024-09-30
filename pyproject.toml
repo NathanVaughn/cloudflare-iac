@@ -7,8 +7,8 @@
     authors = [{ name = "Nathan Vaughn", email = "nath@nvaughn.email" }]
     requires-python = ">=3.12"
     dependencies = [
-        "pulumi==3.133.0",
-        "pulumi-cloudflare==5.39.0",
+        "pulumi==3.134.1",
+        "pulumi-cloudflare==5.39.1",
         "pip>=24.2",                 # needed for pulumi compatibility
     ]
 
