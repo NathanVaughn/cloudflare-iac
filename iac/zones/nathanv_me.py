@@ -185,3 +185,8 @@ cloudflare.ZoneSettingsOverride(
     ),
     zone_id=zone.id,
 )
+
+# prevent AI bot scraping
+cloudflare.BotManagement(
+    f"{BRN}-bot-management", ai_bots_protection="block", zone_id=zone.id
+)
