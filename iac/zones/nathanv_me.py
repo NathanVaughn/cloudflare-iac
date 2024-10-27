@@ -127,6 +127,15 @@ cloudflare.Record(
     zone_id=zone.id,
 )
 
+# discord domain verification
+cloudflare.Record(
+    f"{BRN}-record-discord-verification",
+    name="_discord",
+    type="TXT",
+    content="dh=f320e6ec6a011d45b30580e2810e76df02c29824",
+    zone_id=zone.id,
+)
+
 # link shortener
 cloudflare.Record(
     f"{BRN}-record-dub-co",
