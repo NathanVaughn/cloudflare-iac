@@ -136,6 +136,15 @@ cloudflare.Record(
     zone_id=zone.id,
 )
 
+# bluesky domain verification
+cloudflare.Record(
+    f"{BRN}-record-bluesky-verification",
+    name="_atproto",
+    type="TXT",
+    content="did=did:plc:w5ao3j763odkgrb6d3drjebv",
+    zone_id=zone.id,
+)
+
 # link shortener
 cloudflare.Record(
     f"{BRN}-record-dub-co",
