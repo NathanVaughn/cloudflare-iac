@@ -1,3 +1,4 @@
+import http
 from typing import NamedTuple
 
 import pulumi_cloudflare as cloudflare
@@ -207,4 +208,38 @@ cloudflare.ZoneSettingsOverride(
 # prevent AI bot scraping
 cloudflare.BotManagement(
     f"{BRN}-bot-management", ai_bots_protection="block", zone_id=zone.id
+)
+
+# redirect kubernetes api name to github repo
+cloudflare.Record(
+    f"{BRN}-record-k8s-dns",
+    name="dnsconfigs",
+    type="AAAA",
+    content=utils.INVALID_IP,
+    proxied=True,
+    zone_id=zone.id,
+)
+
+cloudflare.Ruleset(
+    f"{BRN}-k8s-dns-redirect",
+    name="Redirect kubernetes DNS CRD API",
+    kind="zone",
+    phase="http_request_dynamic_redirect",
+    rules=[
+        cloudflare.RulesetRuleArgs(
+            action="redirect",
+            expression=f'(http.host eq "dnsconfigs.{ZONE}")',
+            enabled=True,
+            action_parameters=cloudflare.RulesetRuleActionParametersArgs(
+                from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
+                    status_code=http.HTTPStatus.PERMANENT_REDIRECT,
+                    target_url=cloudflare.RulesetRuleActionParametersFromValueTargetUrlArgs(
+                        value="https://github.com/NathanVaughn/k8s-dns"
+                    ),
+                    preserve_query_string=False,
+                )
+            ),
+        ),
+    ],
+    zone_id=zone.id,
 )
