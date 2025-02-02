@@ -211,25 +211,12 @@ cloudflare.BotManagement(
 )
 
 # redirect kubernetes api name to github repo
-cloudflare.Record(
-    f"{BRN}-record-k8s-dns",
-    name="dnsconfigs",
-    type="AAAA",
-    content=utils.INVALID_IP,
-    proxied=True,
-    zone_id=zone.id,
-)
+utils.create_empty_record(zone.id, ZONE, "dnsconfigs")
 
 # redirect git.nathanv.me to github
-cloudflare.Record(
-    f"{BRN}-record-git",
-    name="git",
-    type="AAAA",
-    content=utils.INVALID_IP,
-    proxied=True,
-    zone_id=zone.id,
-)
+utils.create_empty_record(zone.id, ZONE, "git")
 
+# redirect certain http requests
 cloudflare.Ruleset(
     f"{BRN}-http-redirects",
     name="HTTP redirects",
@@ -244,7 +231,7 @@ cloudflare.Ruleset(
                 from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
                     status_code=http.HTTPStatus.PERMANENT_REDIRECT,
                     target_url=cloudflare.RulesetRuleActionParametersFromValueTargetUrlArgs(
-                        value="https://github.com/NathanVaughn/k8s-dns"
+                        value="https://git.nathanv.me/k8s-dns"
                     ),
                     preserve_query_string=False,
                 )
@@ -256,7 +243,7 @@ cloudflare.Ruleset(
             enabled=True,
             action_parameters=cloudflare.RulesetRuleActionParametersArgs(
                 from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
-                    status_code=http.HTTPStatus.TEMPORARY_REDIRECT,
+                    status_code=http.HTTPStatus.PERMANENT_REDIRECT,
                     target_url=cloudflare.RulesetRuleActionParametersFromValueTargetUrlArgs(
                         expression='concat("https://github.com/NathanVaughn", http.request.uri.path)'
                     ),

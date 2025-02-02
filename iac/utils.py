@@ -14,6 +14,25 @@ def zone_to_name(zone: str) -> str:
     return zone.replace(".", "-")
 
 
+def create_empty_record(
+    zone_id: pulumi.Input[str], zone_name: str, name: str
+) -> cloudflare.Record:
+    """
+    Create a record that is intended to be handled by other Cloudflare services.
+    """
+    brn = zone_to_name(zone_name)
+    label = name or "root"
+
+    return cloudflare.Record(
+        f"{brn}-record-{label}",
+        name=name,
+        type="AAAA",
+        content=INVALID_IP,
+        proxied=True,
+        zone_id=zone_id,
+    )
+
+
 def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
     """
     Create DMARC, SPF, and domain key records to reject all emails.
@@ -53,14 +72,7 @@ def create_root_redirect(
     """
     brn = zone_to_name(zone_name)
 
-    cloudflare.Record(
-        f"{brn}-record-root",
-        name=zone_name,
-        type="AAAA",
-        content=INVALID_IP,
-        proxied=True,
-        zone_id=zone_id,
-    )
+    create_empty_record(zone_id, zone_name, "")
 
     expression = f'(http.host eq "{zone_name}")'
     if all_traffic:

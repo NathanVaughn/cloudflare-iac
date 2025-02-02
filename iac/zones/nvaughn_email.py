@@ -3,7 +3,7 @@ import os
 import pulumi_cloudflare as cloudflare
 
 from iac import utils
-from iac.config import CLOUDFLARE_ACCOUNT_ID, INVALID_IP
+from iac.config import CLOUDFLARE_ACCOUNT_ID
 
 FILES_DIR = os.path.join(os.path.dirname(__file__), "..", "files")
 
@@ -58,14 +58,7 @@ cloudflare.Record(
 )
 
 # this record points to a worker
-mta_sts_worker_record = cloudflare.Record(
-    f"{BRN}-record-mta-sts-worker",
-    name="mta-sts",
-    type="AAAA",
-    content=INVALID_IP,
-    proxied=True,
-    zone_id=zone.id,
-)
+mta_sts_worker_record = utils.create_empty_record(zone.id, ZONE, "mta-sts")
 
 # MX records
 cloudflare.Record(
