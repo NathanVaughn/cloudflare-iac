@@ -232,7 +232,7 @@ cloudflare.Record(
 
 cloudflare.Ruleset(
     f"{BRN}-http-redirects",
-    name="Redirect kubernetes DNS CRD API",
+    name="HTTP redirects",
     kind="zone",
     phase="http_request_dynamic_redirect",
     rules=[
@@ -258,7 +258,7 @@ cloudflare.Ruleset(
                 from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
                     status_code=http.HTTPStatus.TEMPORARY_REDIRECT,
                     target_url=cloudflare.RulesetRuleActionParametersFromValueTargetUrlArgs(
-                        expression="https://github.com/NathanVaughn/{http.request.uri.path}"
+                        expression='concat("https://github.com/NathanVaughn", http.request.uri.path)'
                     ),
                     preserve_query_string=False,
                 )
