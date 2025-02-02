@@ -49,7 +49,7 @@ cloudflare.Record(
 
 # https://developers.cloudflare.com/email-routing/setup/mta-sts/
 cloudflare.Record(
-    f"{BRN}-record-mta-sts",
+    f"{BRN}-record-_mta-sts",
     name="_mta-sts",
     type="CNAME",
     content="_mta-sts.mx.cloudflare.net",

@@ -21,7 +21,7 @@ def create_empty_record(
     Create a record that is intended to be handled by other Cloudflare services.
     """
     brn = zone_to_name(zone_name)
-    label = name or "root"
+    label = "root" if name == "@" else name
 
     return cloudflare.Record(
         f"{brn}-record-{label}",
@@ -72,7 +72,7 @@ def create_root_redirect(
     """
     brn = zone_to_name(zone_name)
 
-    create_empty_record(zone_id, zone_name, "")
+    create_empty_record(zone_id, zone_name, "@")
 
     expression = f'(http.host eq "{zone_name}")'
     if all_traffic:
