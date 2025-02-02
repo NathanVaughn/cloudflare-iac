@@ -220,8 +220,18 @@ cloudflare.Record(
     zone_id=zone.id,
 )
 
+# redirect git.nathanv.me to github
+cloudflare.Record(
+    f"{BRN}-record-git",
+    name="git",
+    type="AAAA",
+    content=utils.INVALID_IP,
+    proxied=True,
+    zone_id=zone.id,
+)
+
 cloudflare.Ruleset(
-    f"{BRN}-k8s-dns-redirect",
+    f"{BRN}-http-redirects",
     name="Redirect kubernetes DNS CRD API",
     kind="zone",
     phase="http_request_dynamic_redirect",
@@ -240,27 +250,6 @@ cloudflare.Ruleset(
                 )
             ),
         ),
-    ],
-    zone_id=zone.id,
-)
-
-
-# redirect git.nathanv.me to github
-cloudflare.Record(
-    f"{BRN}-record-git",
-    name="git",
-    type="AAAA",
-    content=utils.INVALID_IP,
-    proxied=True,
-    zone_id=zone.id,
-)
-
-cloudflare.Ruleset(
-    f"{BRN}-git-redirect",
-    name="Redirect git subdomain to github account",
-    kind="zone",
-    phase="http_request_dynamic_redirect",
-    rules=[
         cloudflare.RulesetRuleArgs(
             action="redirect",
             expression=f'(http.host eq "git.{ZONE}")',
