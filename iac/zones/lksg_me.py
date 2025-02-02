@@ -29,7 +29,7 @@ cloudflare.Record(
     f"{BRN}-record-github-verification",
     name="_github-challenge-linkspring",
     type="TXT",
-    content="45d26e5df8",
+    content='"45d26e5df8"',
     zone_id=zone.id,
 )
 

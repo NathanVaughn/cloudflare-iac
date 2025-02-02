@@ -103,7 +103,7 @@ cloudflare.Record(
     f"{BRN}-record-github-pages-verification",
     name="_github-pages-challenge-nathanvaughn",
     type="TXT",
-    content="61c0f594d3a99e1767d97f89802854",
+    content='"61c0f594d3a99e1767d97f89802854"',
     zone_id=zone.id,
 )
 
@@ -115,7 +115,7 @@ cloudflare.Record(
     f"{BRN}-record-google-verification",
     name=ZONE,
     type="TXT",
-    content="google-site-verification=Z6heCb4QQucy-rAE6o7sRxZDry812WeO1u-ef5eY5Ys",
+    content='"google-site-verification=Z6heCb4QQucy-rAE6o7sRxZDry812WeO1u-ef5eY5Ys"',
     zone_id=zone.id,
 )
 
@@ -124,7 +124,7 @@ cloudflare.Record(
     f"{BRN}-record-keybase-verification",
     name=ZONE,
     type="TXT",
-    content="keybase-site-verification=yVOcfmhiYwOvGp2TJwUamoeF-mht3WFhkZayPNahuhQ",
+    content='"keybase-site-verification=yVOcfmhiYwOvGp2TJwUamoeF-mht3WFhkZayPNahuhQ"',
     zone_id=zone.id,
 )
 
@@ -133,7 +133,7 @@ cloudflare.Record(
     f"{BRN}-record-discord-verification",
     name="_discord",
     type="TXT",
-    content="dh=f320e6ec6a011d45b30580e2810e76df02c29824",
+    content='"dh=f320e6ec6a011d45b30580e2810e76df02c29824"',
     zone_id=zone.id,
 )
 
@@ -142,7 +142,7 @@ cloudflare.Record(
     f"{BRN}-record-bluesky-verification",
     name="_atproto",
     type="TXT",
-    content="did=did:plc:w5ao3j763odkgrb6d3drjebv",
+    content='"did=did:plc:w5ao3j763odkgrb6d3drjebv"',
     zone_id=zone.id,
 )
 

@@ -43,7 +43,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
         f"{brn}-record-dmarc",
         name="_dmarc",
         type="TXT",
-        content="v=DMARC1; p=reject; sp=reject;",
+        content='"v=DMARC1; p=reject; sp=reject;"',
         zone_id=zone_id,
     )
 
@@ -51,7 +51,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
         f"{brn}-record-spf",
         name=zone_name,
         type="TXT",
-        content="v=spf1 -all",
+        content='"v=spf1 -all"',
         zone_id=zone_id,
     )
 
@@ -59,7 +59,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
         f"{brn}-record-domainkey",
         name="*._domainkey",
         type="TXT",
-        content="v=DKIM1; p=",
+        content='"v=DKIM1; p="',
         zone_id=zone_id,
     )
 
@@ -115,6 +115,6 @@ def create_hibp_verification(
         f"{brn}-record-hibp-verification",
         name=zone_name,
         type="TXT",
-        content=f"have-i-been-pwned-verification={verification_id}",
+        content=f'"have-i-been-pwned-verification={verification_id}"',
         zone_id=zone_id,
     )

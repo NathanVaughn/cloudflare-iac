@@ -93,7 +93,7 @@ cloudflare.Record(
     f"{BRN}-record-dmarc",
     name="_dmarc",
     type="TXT",
-    content="v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:8f1ceab69df742f2a564c0a55b6eec75@dmarc-reports.cloudflare.net",
+    content='"v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:8f1ceab69df742f2a564c0a55b6eec75@dmarc-reports.cloudflare.net"',
     zone_id=zone.id,
 )
 
@@ -101,7 +101,7 @@ cloudflare.Record(
     f"{BRN}-record-spf",
     name=ZONE,
     type="TXT",
-    content="v=spf1 include:_spf.mx.cloudflare.net -all",
+    content='"v=spf1 include:_spf.mx.cloudflare.net -all"',
     zone_id=zone.id,
 )
 
@@ -110,7 +110,7 @@ cloudflare.Record(
     f"{BRN}-record-bimi",
     name="default._bimi",
     type="TXT",
-    content="v=BIMI1; l=https://nathanv.me/img/theme-colors/red.svg",
+    content='"v=BIMI1; l=https://nathanv.me/img/theme-colors/red.svg"',
     zone_id=zone.id,
 )
 
@@ -119,7 +119,7 @@ cloudflare.Record(
     f"{BRN}-record-smtp-tls",
     name="_smtp._tls",
     type="TXT",
-    content=f"v=TLSRPTv1; rua=mailto:{VANITY_EMAIL}",
+    content=f'"v=TLSRPTv1; rua=mailto:{VANITY_EMAIL}"',
     zone_id=zone.id,
 )
 
