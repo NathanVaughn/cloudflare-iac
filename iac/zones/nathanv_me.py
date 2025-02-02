@@ -243,3 +243,38 @@ cloudflare.Ruleset(
     ],
     zone_id=zone.id,
 )
+
+
+# redirect git.nathanv.me to github
+cloudflare.Record(
+    f"{BRN}-record-git",
+    name="git",
+    type="AAAA",
+    content=utils.INVALID_IP,
+    proxied=True,
+    zone_id=zone.id,
+)
+
+cloudflare.Ruleset(
+    f"{BRN}-git-redirect",
+    name="Redirect git subdomain to github account",
+    kind="zone",
+    phase="http_request_dynamic_redirect",
+    rules=[
+        cloudflare.RulesetRuleArgs(
+            action="redirect",
+            expression=f'(http.host eq "git.{ZONE}")',
+            enabled=True,
+            action_parameters=cloudflare.RulesetRuleActionParametersArgs(
+                from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
+                    status_code=http.HTTPStatus.TEMPORARY_REDIRECT,
+                    target_url=cloudflare.RulesetRuleActionParametersFromValueTargetUrlArgs(
+                        expression="https://github.com/NathanVaughn/{http.request.uri.path}"
+                    ),
+                    preserve_query_string=False,
+                )
+            ),
+        ),
+    ],
+    zone_id=zone.id,
+)
