@@ -31,9 +31,13 @@ Repository: <https://github.com/NathanVaughn/nathanv.me>
 
 That repository also contains the following redirects:
 
+- `https://nathanv.me/links/*` -> `https://links.nathanv.me/*`
 - `https://nathanv.me/link/*` -> `https://links.nathanv.me/*`
 - `https://nathanv.me/blog/*` -> `https://blog.nathanv.me/*`
 - `https://nathanv.me/pay/*` -> `https://pay.nathanv.me/*`
+- `https://nathanv.me/links` -> `https://links.nathanv.me`
+- `https://nathanv.me/blog` -> `https://blog.nathanv.me`
+- `https://nathanv.me/pay` -> `https://pay.nathanv.me`
 
 ## Blog
 
