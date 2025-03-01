@@ -1,4 +1,8 @@
-# lksg.me
+# Docs
+
+This goes over my Cloudflare account configuration.
+
+## lksg.me
 
 Old Linkspring domain name. This repo redirects all traffic to <https://links.nathanv.me>
 and blocks any emails being sent. The following subdomains used to be used:
@@ -10,7 +14,7 @@ and blocks any emails being sent. The following subdomains used to be used:
 - `dev.lksg.me`
 - `dev-cdn.lksg.me`
 
-# nathanv.app
+## nathanv.app
 
 My domain name used for self-hosted services in my homelab. DNS is largely managed
 automatically by <https://github.com/NathanVaughn/homelab-k8s>.
@@ -18,11 +22,11 @@ automatically by <https://github.com/NathanVaughn/homelab-k8s>.
 This repo blocks any emails being sent and redirects HTTP requests for
 <https://nathanv.app> to <https://nathanv.me>.
 
-# nathanv.me
+## nathanv.me
 
 My main domain name. This repo blocks any emails being sent.
 
-## Main website
+### Main website
 
 Repository: <https://github.com/NathanVaughn/nathanv.me>
 
@@ -39,58 +43,58 @@ That repository also contains the following redirects:
 - `https://nathanv.me/blog` -> `https://blog.nathanv.me`
 - `https://nathanv.me/pay` -> `https://pay.nathanv.me`
 
-## Blog
+### Blog
 
 Repository: <https://github.com/NathanVaughn/blog.nathanv.me>
 
 - `blog.nathanv.me`
 - `www.blog.nathanv.me`
 
-## Links
+### Links
 
 Repository: <https://github.com/NathanVaughn/links.nathanv.me>
 
 - `links.nathanv.me`
 - `www.links.nathanv.me`
 
-## Payments
+### Payments
 
 Repository: <https://github.com/NathanVaughn/pay.nathanv.me>
 
 - `pay.nathanv.me`
 - `www.pay.nathanv.me`
 
-## Files
+### Files
 
 CNAME for `nathanv-public` R2 bucket.
 
 - `files.nathanv.me`
 
-## URL Shortener
+### URL Shortener
 
 CNAME to <https://dub.co>.
 
 - `go.nathanv.me`
 
-## Git Redirect
+### Git Redirect
 
 Redirects `https://git.nathanv.me/*` to `https://github.com/NathanVaughn/*`.
 
 - `git.nathanv.me`
 
-## Kubernetes DNS
+### Kubernetes DNS
 
 Redirects to the git repo <https://github.com/NathanVaughn/k8s-dns>
 
 - `dnsconfigs.nathanv.me`
 
-## Teapot
+### Teapot
 
 Fun Cloudflare Worker: <https://github.com/NathanVaughn/nathanv.me-teapot>
 
 - `nathanv.me/teapot`
 
-# nvaughn.email
+## nvaughn.email
 
 My domain name used for sending and receiving emails. Allows
 for `nath@nvaughn.email` vanity address.
