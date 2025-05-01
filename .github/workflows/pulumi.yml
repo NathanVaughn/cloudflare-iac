@@ -38,14 +38,14 @@ jobs:
       - name: Install vscode-task-runner
         run: uv tool install vscode-task-runner
 
-      - name: Get Pulumi Version
-        id: pulumi_version
-        run: echo "pulumi_version=$(python scripts/get_pulumi_version.py)" >> "$GITHUB_OUTPUT"
+      # - name: Get Pulumi Version
+      #   id: pulumi_version
+      #   run: echo "pulumi_version=$(uv run scripts/get_pulumi_version.py)" >> "$GITHUB_OUTPUT"
 
       - name: Install Pulumi
         uses: pulumi/actions@v6
-        with:
-          pulumi-version: ${{ steps.pulumi_version.outputs.pulumi_version }}
+        # with:
+        #   pulumi-version: ${{ steps.pulumi_version.outputs.pulumi_version }}
 
       - name: Setup secrets
         run: echo "${{ secrets.ENVIRONMENT_FILE }}" > .env
