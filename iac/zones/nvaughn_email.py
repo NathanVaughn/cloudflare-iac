@@ -14,13 +14,13 @@ VANITY_EMAIL = f"nath@{ZONE}"
 PERSONAL_EMAIL = "nvaughn51@gmail.com"
 
 zone = cloudflare.Zone(
-    f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
+    f"{BRN}-zone", name=ZONE, account={"id": CLOUDFLARE_ACCOUNT_ID}, type="full"
 )
 
 zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
 # sendgrid records
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-sendgrid1",
     name="em2294",
     type="CNAME",
@@ -29,7 +29,7 @@ cloudflare.Record(
     zone_id=zone.id,
 )
 
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-sendgrid2",
     name="s1._domainkey",
     type="CNAME",
@@ -38,7 +38,7 @@ cloudflare.Record(
     zone_id=zone.id,
 )
 
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-sendgrid3",
     name="s2._domainkey",
     type="CNAME",
@@ -48,7 +48,7 @@ cloudflare.Record(
 )
 
 # https://developers.cloudflare.com/email-routing/setup/mta-sts/
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-_mta-sts",
     name="_mta-sts",
     type="CNAME",
@@ -61,27 +61,27 @@ cloudflare.Record(
 mta_sts_worker_record = utils.create_empty_record(zone.id, ZONE, "mta-sts")
 
 # MX records
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-mx1",
-    name=zone.zone,
+    name=zone.name,
     type="MX",
     content="route1.mx.cloudflare.net",
     priority=38,
     zone_id=zone.id,
 )
 
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-mx2",
-    name=zone.zone,
+    name=zone.name,
     type="MX",
     content="route2.mx.cloudflare.net",
     priority=70,
     zone_id=zone.id,
 )
 
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-mx3",
-    name=zone.zone,
+    name=zone.name,
     type="MX",
     content="route3.mx.cloudflare.net",
     priority=2,
@@ -89,7 +89,7 @@ cloudflare.Record(
 )
 
 # dmarc and spf
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-dmarc",
     name="_dmarc",
     type="TXT",
@@ -97,7 +97,7 @@ cloudflare.Record(
     zone_id=zone.id,
 )
 
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-spf",
     name=ZONE,
     type="TXT",
@@ -106,7 +106,7 @@ cloudflare.Record(
 )
 
 # BIMI
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-bimi",
     name="default._bimi",
     type="TXT",
@@ -115,7 +115,7 @@ cloudflare.Record(
 )
 
 # TLS reporting
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-smtp-tls",
     name="_smtp._tls",
     type="TXT",
@@ -153,7 +153,7 @@ cloudflare.EmailRoutingSettings(
 
 cloudflare.EmailRoutingAddress(
     f"{BRN}-email-routing-address",
-    account_id=zone.account_id,
+    account_id=CLOUDFLARE_ACCOUNT_ID,
     email=PERSONAL_EMAIL,
 )
 

@@ -49,7 +49,7 @@ for pc in pages_configs:
         project_name=project_name,
     )
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{BRN}-record-{pc.name}",
         name=domain,
         type="CNAME",
@@ -66,7 +66,7 @@ for pc in pages_configs:
         project_name=project_name,
     )
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{BRN}-record-{pc.name}-www",
         name=f"www.{domain}",
         type="CNAME",
@@ -99,7 +99,7 @@ for pc in pages_configs:
     )
 
 # github verification
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-github-pages-verification",
     name="_github-pages-challenge-nathanvaughn",
     type="TXT",
@@ -111,7 +111,7 @@ cloudflare.Record(
 utils.create_hibp_verification(zone.id, ZONE, "dweb_ze91kvkz82u3kj0ejw0l1pla")
 
 # google site verification
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-google-verification",
     name=ZONE,
     type="TXT",
@@ -120,7 +120,7 @@ cloudflare.Record(
 )
 
 # keybase site verification
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-keybase-verification",
     name=ZONE,
     type="TXT",
@@ -129,7 +129,7 @@ cloudflare.Record(
 )
 
 # discord domain verification
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-discord-verification",
     name="_discord",
     type="TXT",
@@ -138,7 +138,7 @@ cloudflare.Record(
 )
 
 # bluesky domain verification
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-bluesky-verification",
     name="_atproto",
     type="TXT",
@@ -147,7 +147,7 @@ cloudflare.Record(
 )
 
 # link shortener
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-dub-co",
     name="go",
     type="CNAME",
@@ -157,7 +157,7 @@ cloudflare.Record(
 )
 
 # R2 bucket
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-r2",
     name="files",
     type="CNAME",

@@ -7,7 +7,7 @@ ZONE = "lksg.me"
 BRN = utils.zone_to_name(ZONE)
 
 zone = cloudflare.Zone(
-    f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
+    f"{BRN}-zone", name=ZONE, account={"id": CLOUDFLARE_ACCOUNT_ID}, type="full"
 )
 
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
@@ -15,7 +15,7 @@ cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 # old CNAMES
 old_cnames = ["www", "cdn", "dev-cdn", "dev", "status"]
 for oc in old_cnames:
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{BRN}-record-{oc}",
         name=oc,
         type="CNAME",
@@ -25,7 +25,7 @@ for oc in old_cnames:
     )
 
 # github verification
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-github-verification",
     name="_github-challenge-linkspring",
     type="TXT",

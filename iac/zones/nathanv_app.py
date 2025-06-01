@@ -9,7 +9,7 @@ BRN = utils.zone_to_name(ZONE)
 
 
 zone = cloudflare.Zone(
-    f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
+    f"{BRN}-zone", name=ZONE, account={"id": CLOUDFLARE_ACCOUNT_ID}, type="full"
 )
 
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
