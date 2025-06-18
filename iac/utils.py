@@ -16,14 +16,14 @@ def zone_to_name(zone: str) -> str:
 
 def create_empty_record(
     zone_id: pulumi.Input[str], zone_name: str, name: str
-) -> cloudflare.Record:
+) -> cloudflare.DnsRecord:
     """
     Create a record that is intended to be handled by other Cloudflare services.
     """
     brn = zone_to_name(zone_name)
     label = "root" if name == "@" else name
 
-    return cloudflare.Record(
+    return cloudflare.DnsRecord(
         f"{brn}-record-{label}",
         name=name,
         type="AAAA",
@@ -39,7 +39,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
     """
     brn = zone_to_name(zone_name)
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-dmarc",
         name="_dmarc",
         type="TXT",
@@ -47,7 +47,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
         zone_id=zone_id,
     )
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-spf",
         name=zone_name,
         type="TXT",
@@ -55,7 +55,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
         zone_id=zone_id,
     )
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-domainkey",
         name="*._domainkey",
         type="TXT",
@@ -111,7 +111,7 @@ def create_hibp_verification(
     """
     brn = zone_to_name(zone_name)
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-hibp-verification",
         name=zone_name,
         type="TXT",

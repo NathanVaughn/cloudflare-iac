@@ -1,13 +1,13 @@
 import pulumi_cloudflare as cloudflare
 
 from iac import utils
-from iac.config import CLOUDFLARE_ACCOUNT_ID
+from iac.config import CLOUDFLARE_ACCOUNT_ID, ZONE_TYPE
 
-ZONE = "lksg.me"
-BRN = utils.zone_to_name(ZONE)
+ZONE_NAME = "lksg.me"
+BRN = utils.zone_to_name(ZONE_NAME)
 
 zone = cloudflare.Zone(
-    f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
+    f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
@@ -19,7 +19,7 @@ for oc in old_cnames:
         f"{BRN}-record-{oc}",
         name=oc,
         type="CNAME",
-        content=ZONE,
+        content=ZONE_NAME,
         proxied=True,
         zone_id=zone.id,
     )
@@ -34,7 +34,9 @@ cloudflare.Record(
 )
 
 # email security
-utils.reject_emails(zone.id, ZONE)
+utils.reject_emails(zone.id, ZONE_NAME)
 
 # root redirect rule
-utils.create_root_redirect(zone.id, ZONE, "https://links.nathanv.me", all_traffic=True)
+utils.create_root_redirect(
+    zone.id, ZONE_NAME, "https://links.nathanv.me", all_traffic=True
+)

@@ -4,10 +4,10 @@ from typing import NamedTuple
 import pulumi_cloudflare as cloudflare
 
 from iac import utils
-from iac.config import CLOUDFLARE_ACCOUNT_ID
+from iac.config import CLOUDFLARE_ACCOUNT_ID, ZONE_TYPE
 
-ZONE = "nathanv.me"
-BRN = utils.zone_to_name(ZONE)
+ZONE_NAME = "nathanv.me"
+BRN = utils.zone_to_name(ZONE_NAME)
 
 
 class PagesConfig(NamedTuple):
@@ -23,7 +23,7 @@ pages_configs = [
 ]
 
 zone = cloudflare.Zone(
-    f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
+    f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
@@ -31,11 +31,11 @@ cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
 # cloudflare pages
 for pc in pages_configs:
-    domain = ZONE
+    domain = ZONE_NAME
 
     # build the domain name of the page
     if pc.subdomain:
-        domain = f"{pc.subdomain}.{ZONE}"
+        domain = f"{pc.subdomain}.{ZONE_NAME}"
 
     project_name = utils.zone_to_name(domain)
 
@@ -44,8 +44,8 @@ for pc in pages_configs:
     # root
     cloudflare.PagesDomain(
         f"{BRN}-pages-domain-{pc.name}",
-        account_id=zone.account_id,
-        domain=domain,
+        account_id=CLOUDFLARE_ACCOUNT_ID,
+        name=domain,
         project_name=project_name,
     )
 
@@ -61,8 +61,8 @@ for pc in pages_configs:
     # www
     cloudflare.PagesDomain(
         f"{BRN}-pages-domain-www-{pc.name}",
-        account_id=zone.account_id,
-        domain=f"www.{domain}",
+        account_id=CLOUDFLARE_ACCOUNT_ID,
+        name=f"www.{domain}",
         project_name=project_name,
     )
 
@@ -79,12 +79,13 @@ for pc in pages_configs:
     branch = "main"
     cloudflare.PagesProject(
         f"{BRN}-pages-project-{pc.name}",
-        account_id=zone.account_id,
+        account_id=CLOUDFLARE_ACCOUNT_ID,
         name=project_name,
         build_config=cloudflare.PagesProjectBuildConfigArgs(
             build_caching=True, build_command="npm run build", destination_dir="public"
         ),
         production_branch=branch,
+        # https://github.com/pulumi/pulumi-cloudflare/issues/1186
         source=cloudflare.PagesProjectSourceArgs(
             type="github",
             config=cloudflare.PagesProjectSourceConfigArgs(
@@ -93,7 +94,7 @@ for pc in pages_configs:
                 production_branch=branch,
                 pr_comments_enabled=True,
                 deployments_enabled=True,
-                production_deployment_enabled=True,
+                production_deployments_enabled=True,
             ),
         ),
     )
@@ -108,12 +109,12 @@ cloudflare.Record(
 )
 
 # have i been pwned verification
-utils.create_hibp_verification(zone.id, ZONE, "dweb_ze91kvkz82u3kj0ejw0l1pla")
+utils.create_hibp_verification(zone.id, ZONE_NAME, "dweb_ze91kvkz82u3kj0ejw0l1pla")
 
 # google site verification
 cloudflare.Record(
     f"{BRN}-record-google-verification",
-    name=ZONE,
+    name=ZONE_NAME,
     type="TXT",
     content='"google-site-verification=Z6heCb4QQucy-rAE6o7sRxZDry812WeO1u-ef5eY5Ys"',
     zone_id=zone.id,
@@ -122,7 +123,7 @@ cloudflare.Record(
 # keybase site verification
 cloudflare.Record(
     f"{BRN}-record-keybase-verification",
-    name=ZONE,
+    name=ZONE_NAME,
     type="TXT",
     content='"keybase-site-verification=yVOcfmhiYwOvGp2TJwUamoeF-mht3WFhkZayPNahuhQ"',
     zone_id=zone.id,
@@ -167,7 +168,7 @@ cloudflare.Record(
 )
 
 # email security
-utils.reject_emails(zone.id, ZONE)
+utils.reject_emails(zone.id, ZONE_NAME)
 
 # overall zone settings
 cloudflare.ZoneSettingsOverride(
@@ -211,10 +212,10 @@ cloudflare.BotManagement(
 )
 
 # redirect kubernetes api name to github repo
-utils.create_empty_record(zone.id, ZONE, "dnsconfigs")
+utils.create_empty_record(zone.id, ZONE_NAME, "dnsconfigs")
 
 # redirect git.nathanv.me to github
-utils.create_empty_record(zone.id, ZONE, "git")
+utils.create_empty_record(zone.id, ZONE_NAME, "git")
 
 # redirect certain http requests
 cloudflare.Ruleset(
@@ -225,7 +226,7 @@ cloudflare.Ruleset(
     rules=[
         cloudflare.RulesetRuleArgs(
             action="redirect",
-            expression=f'(http.host eq "dnsconfigs.{ZONE}")',
+            expression=f'(http.host eq "dnsconfigs.{ZONE_NAME}")',
             enabled=True,
             action_parameters=cloudflare.RulesetRuleActionParametersArgs(
                 from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(
@@ -239,7 +240,7 @@ cloudflare.Ruleset(
         ),
         cloudflare.RulesetRuleArgs(
             action="redirect",
-            expression=f'(http.host eq "git.{ZONE}")',
+            expression=f'(http.host eq "git.{ZONE_NAME}")',
             enabled=True,
             action_parameters=cloudflare.RulesetRuleActionParametersArgs(
                 from_value=cloudflare.RulesetRuleActionParametersFromValueArgs(

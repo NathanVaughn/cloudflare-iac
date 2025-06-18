@@ -1,27 +1,28 @@
 import pulumi_cloudflare as cloudflare
 
 from iac import utils
-from iac.config import CLOUDFLARE_ACCOUNT_ID
+from iac.config import CLOUDFLARE_ACCOUNT_ID, ZONE_TYPE
 
-# base resource name
-ZONE = "nathanv.app"
-BRN = utils.zone_to_name(ZONE)
-
+ZONE_NAME = "nathanv.app"
+BRN = utils.zone_to_name(ZONE_NAME)
 
 zone = cloudflare.Zone(
-    f"{BRN}-zone", zone=ZONE, plan="free", account_id=CLOUDFLARE_ACCOUNT_ID
+    f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
-
 # have i been pwned verification
-utils.create_hibp_verification(zone.id, ZONE, "dweb_sxmvyzv0drozr5fspuu67cxg")
+utils.create_hibp_verification(zone.id, ZONE_NAME, "dweb_sxmvyzv0drozr5fspuu67cxg")
 
 # email security
-utils.reject_emails(zone.id, ZONE)
+utils.reject_emails(zone.id, ZONE_NAME)
 
 # overall zone settings
+# https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone_setting#id-7
+cloudflare.ZoneSetting(
+    f"{BRN}-zone-setting-rocket-loader", setting_id="rocket_loader", value="off"
+)
 cloudflare.ZoneSettingsOverride(
     f"{BRN}-zone-settings",
     settings=cloudflare.ZoneSettingsOverrideSettingsArgs(
@@ -61,4 +62,4 @@ cloudflare.ZoneSettingsOverride(
 )
 
 # root redirect rule
-utils.create_root_redirect(zone.id, ZONE, "https://nathanv.me")
+utils.create_root_redirect(zone.id, ZONE_NAME, "https://nathanv.me")
