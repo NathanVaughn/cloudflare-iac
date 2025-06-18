@@ -3,7 +3,8 @@ import os
 import pulumi_cloudflare as cloudflare
 
 from iac import utils
-from iac.config import CLOUDFLARE_ACCOUNT_ID, ZONE_TYPE
+from iac.config import CLOUDFLARE_ACCOUNT_ID, PERSONAL_EMAIL
+from iac.constants import AUTO_TTL, ZONE_TYPE
 
 FILES_DIR = os.path.join(os.path.dirname(__file__), "..", "files")
 
@@ -11,12 +12,13 @@ ZONE_NAME = "nvaughn.email"
 BRN = utils.zone_to_name(ZONE_NAME)
 
 VANITY_EMAIL = f"nath@{ZONE_NAME}"
-PERSONAL_EMAIL = "nvaughn51@gmail.com"
 
 zone = cloudflare.Zone(
     f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
+# https://github.com/pulumi/pulumi-cloudflare/issues/1232
+# BLOCKED
 zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
 # sendgrid records
@@ -26,6 +28,7 @@ cloudflare.DnsRecord(
     type="CNAME",
     content="u14911081.wl082.sendgrid.net",
     proxied=False,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -35,6 +38,7 @@ cloudflare.DnsRecord(
     type="CNAME",
     content="s1.domainkey.u14911081.wl082.sendgrid.net",
     proxied=False,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -44,6 +48,7 @@ cloudflare.DnsRecord(
     type="CNAME",
     content="s2.domainkey.u14911081.wl082.sendgrid.net",
     proxied=False,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -54,6 +59,7 @@ cloudflare.DnsRecord(
     type="CNAME",
     content="_mta-sts.mx.cloudflare.net",
     proxied=False,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -67,6 +73,7 @@ cloudflare.DnsRecord(
     type="MX",
     content="route1.mx.cloudflare.net",
     priority=38,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -76,6 +83,7 @@ cloudflare.DnsRecord(
     type="MX",
     content="route2.mx.cloudflare.net",
     priority=70,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -85,6 +93,7 @@ cloudflare.DnsRecord(
     type="MX",
     content="route3.mx.cloudflare.net",
     priority=2,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -94,6 +103,7 @@ cloudflare.DnsRecord(
     name="_dmarc",
     type="TXT",
     content='"v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:8f1ceab69df742f2a564c0a55b6eec75@dmarc-reports.cloudflare.net"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -102,6 +112,7 @@ cloudflare.DnsRecord(
     name=ZONE_NAME,
     type="TXT",
     content='"v=spf1 include:_spf.mx.cloudflare.net -all"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -111,6 +122,7 @@ cloudflare.DnsRecord(
     name="default._bimi",
     type="TXT",
     content='"v=BIMI1; l=https://nathanv.me/img/theme-colors/red.svg"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -120,6 +132,7 @@ cloudflare.DnsRecord(
     name="_smtp._tls",
     type="TXT",
     content=f'"v=TLSRPTv1; rua=mailto:{VANITY_EMAIL}"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 

@@ -4,7 +4,8 @@ from typing import NamedTuple
 import pulumi_cloudflare as cloudflare
 
 from iac import utils
-from iac.config import CLOUDFLARE_ACCOUNT_ID, ZONE_TYPE
+from iac.config import CLOUDFLARE_ACCOUNT_ID
+from iac.constants import AUTO_TTL, ZONE_TYPE
 
 ZONE_NAME = "nathanv.me"
 BRN = utils.zone_to_name(ZONE_NAME)
@@ -26,6 +27,8 @@ zone = cloudflare.Zone(
     f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
+# https://github.com/pulumi/pulumi-cloudflare/issues/1232
+# BLOCKED
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
 
@@ -55,6 +58,7 @@ for pc in pages_configs:
         type="CNAME",
         content=f"{project_name}.pages.dev",
         proxied=True,
+        ttl=AUTO_TTL,
         zone_id=zone.id,
     )
 
@@ -72,6 +76,7 @@ for pc in pages_configs:
         type="CNAME",
         content=f"{project_name}.pages.dev",
         proxied=True,
+        ttl=AUTO_TTL,
         zone_id=zone.id,
     )
 
@@ -86,6 +91,7 @@ for pc in pages_configs:
         ),
         production_branch=branch,
         # https://github.com/pulumi/pulumi-cloudflare/issues/1186
+        # BLOCKED
         source=cloudflare.PagesProjectSourceArgs(
             type="github",
             config=cloudflare.PagesProjectSourceConfigArgs(
@@ -105,6 +111,7 @@ cloudflare.Record(
     name="_github-pages-challenge-nathanvaughn",
     type="TXT",
     content='"61c0f594d3a99e1767d97f89802854"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -117,6 +124,7 @@ cloudflare.Record(
     name=ZONE_NAME,
     type="TXT",
     content='"google-site-verification=Z6heCb4QQucy-rAE6o7sRxZDry812WeO1u-ef5eY5Ys"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -126,6 +134,7 @@ cloudflare.Record(
     name=ZONE_NAME,
     type="TXT",
     content='"keybase-site-verification=yVOcfmhiYwOvGp2TJwUamoeF-mht3WFhkZayPNahuhQ"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -135,6 +144,7 @@ cloudflare.Record(
     name="_discord",
     type="TXT",
     content='"dh=f320e6ec6a011d45b30580e2810e76df02c29824"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -144,6 +154,7 @@ cloudflare.Record(
     name="_atproto",
     type="TXT",
     content='"did=did:plc:w5ao3j763odkgrb6d3drjebv"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -154,6 +165,7 @@ cloudflare.Record(
     type="CNAME",
     content="cname.dub.co",
     proxied=False,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -164,6 +176,7 @@ cloudflare.Record(
     type="CNAME",
     content="public.r2.dev",
     proxied=True,
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
@@ -171,40 +184,36 @@ cloudflare.Record(
 utils.reject_emails(zone.id, ZONE_NAME)
 
 # overall zone settings
-cloudflare.ZoneSettingsOverride(
-    f"{BRN}-zone-settings",
-    settings=cloudflare.ZoneSettingsOverrideSettingsArgs(
-        always_online="on",
-        always_use_https="on",
-        automatic_https_rewrites="on",
-        brotli="on",
-        browser_cache_ttl=60 * 60 * 24 * 31,  # seconds in a month
-        browser_check="on",
-        cache_level="aggressive",
-        challenge_ttl=60 * 60,  # seconds in an hour
-        early_hints="on",
-        email_obfuscation="on",
-        hotlink_protection="off",
-        http3="on",
-        ipv6="on",
-        # updating this was causing errors with "__default" field schema changes
-        # minify=cloudflare.ZoneSettingsOverrideSettingsMinifyArgs(
-        #     html="on", css="on", js="on"
-        # ),
-        opportunistic_onion="on",
-        rocket_loader="off",  # this caused problems in the past
-        security_header=cloudflare.ZoneSettingsOverrideSettingsSecurityHeaderArgs(
-            enabled=True,
-            include_subdomains=True,
-            preload=True,
-            nosniff=True,
-            max_age=60 * 60 * 24 * 30 * 6,
-        ),  # seconds in 6 months
-        security_level="low",  # just static sites
-        ssl="flexible",
-    ),
-    zone_id=zone.id,
-)
+# https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone_setting#id-7
+settings = {
+    "automatic_https_rewrites": "on",
+    "brotli": "on",
+    "browser_cache_ttl": 60 * 60 * 24 * 31,  # seconds in a month
+    "cache_level": "aggressive",
+    "email_obfuscation": "on",
+    "hotlink_protection": "off",
+    "http3": "on",
+    "ipv6": "on",
+    "rocket_loader": "off",  # this caused problems in the past
+    "security_level": "low",  # just static sites
+    "security_header": {
+        "enabled": True,
+        "include_subdomains": True,
+        "preload": True,
+        "nosniff": True,
+        "max_age": 60 * 60 * 24 * 30 * 6,  # seconds in 6 months
+    },
+    "ssl": "flexible",  # github didn't have SSL, could maybe upgrade to strict
+}
+
+for setting_id, value in settings.items():
+    cloudflare.ZoneSetting(
+        f"{BRN}-zone-setting-{setting_id}",
+        setting_id=setting_id,
+        value=value,
+        zone_id=zone.id,
+    )
+
 
 # prevent AI bot scraping
 cloudflare.BotManagement(

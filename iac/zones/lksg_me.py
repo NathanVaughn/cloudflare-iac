@@ -1,7 +1,8 @@
 import pulumi_cloudflare as cloudflare
 
 from iac import utils
-from iac.config import CLOUDFLARE_ACCOUNT_ID, ZONE_TYPE
+from iac.config import CLOUDFLARE_ACCOUNT_ID
+from iac.constants import AUTO_TTL, ZONE_TYPE
 
 ZONE_NAME = "lksg.me"
 BRN = utils.zone_to_name(ZONE_NAME)
@@ -10,26 +11,30 @@ zone = cloudflare.Zone(
     f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
+# https://github.com/pulumi/pulumi-cloudflare/issues/1232
+# BLOCKED
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
 # old CNAMES
 old_cnames = ["www", "cdn", "dev-cdn", "dev", "status"]
 for oc in old_cnames:
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{BRN}-record-{oc}",
         name=oc,
         type="CNAME",
         content=ZONE_NAME,
         proxied=True,
+        ttl=AUTO_TTL,
         zone_id=zone.id,
     )
 
 # github verification
-cloudflare.Record(
+cloudflare.DnsRecord(
     f"{BRN}-record-github-verification",
     name="_github-challenge-linkspring",
     type="TXT",
     content='"45d26e5df8"',
+    ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
