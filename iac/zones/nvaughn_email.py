@@ -52,7 +52,7 @@ cloudflare.Record(
     f"{BRN}-record-maileroo-dkim",
     name="mta._domainkey",
     type="TXT",
-    content="v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAufpdIXXcuO5duN0RyDQZt3VaW9D0cNprulrX7wLgQIlKu7p0bTJq3cEpjZ3urJ6MadLX9QrDEEop5LGBKGdZueCOAdwkxZfW5Pz3DYwps8rZ71jHmofVmuDnauVmx1jnMFy0rR0ufq4EKyJFBJLdVuJw1J2dBJ/aZeQLtHgvjKmQ3dKrex4WjnnJCscab/KJnBsDlfeExCYBMpZSTICw9qJc94XkrxGmOuHrBjea4oDgnPMeiGMOcODca86BS8s26kXk6C2VisMIfCVWZ289VpBWe3KLn5tMNzFrJVvREcjil5oXyd+aj5oJ7nfZY3ehyC6mLZg7r1COUY9TRCBk5wIDAQAB",
+    content='"v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAufpdIXXcuO5duN0RyDQZt3VaW9D0cNprulrX7wLgQIlKu7p0bTJq3cEpjZ3urJ6MadLX9QrDEEop5LGBKGdZueCOAdwkxZfW5Pz3DYwps8rZ71jHmofVmuDnauVmx1jnMFy0rR0ufq4EKyJFBJLdVuJw1J2dBJ/aZeQLtHgvjKmQ3dKrex4WjnnJCscab/KJnBsDlfeExCYBMpZSTICw9qJc94XkrxGmOuHrBjea4oDgnPMeiGMOcODca86BS8s26kXk6C2VisMIfCVWZ289VpBWe3KLn5tMNzFrJVvREcjil5oXyd+aj5oJ7nfZY3ehyC6mLZg7r1COUY9TRCBk5wIDAQAB"',
     proxied=False,
     zone_id=zone.id,
 )
