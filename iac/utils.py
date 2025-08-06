@@ -3,7 +3,7 @@ import http
 import pulumi
 import pulumi_cloudflare as cloudflare
 
-from iac.config import INVALID_IP
+from iac.constants import AUTO_TTL, INVALID_IP
 
 
 def zone_to_name(zone: str) -> str:
@@ -16,19 +16,20 @@ def zone_to_name(zone: str) -> str:
 
 def create_empty_record(
     zone_id: pulumi.Input[str], zone_name: str, name: str
-) -> cloudflare.Record:
+) -> cloudflare.DnsRecord:
     """
     Create a record that is intended to be handled by other Cloudflare services.
     """
     brn = zone_to_name(zone_name)
     label = "root" if name == "@" else name
 
-    return cloudflare.Record(
+    return cloudflare.DnsRecord(
         f"{brn}-record-{label}",
         name=name,
         type="AAAA",
         content=INVALID_IP,
         proxied=True,
+        ttl=AUTO_TTL,
         zone_id=zone_id,
     )
 
@@ -39,27 +40,30 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
     """
     brn = zone_to_name(zone_name)
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-dmarc",
         name="_dmarc",
         type="TXT",
         content='"v=DMARC1; p=reject; sp=reject;"',
+        ttl=AUTO_TTL,
         zone_id=zone_id,
     )
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-spf",
         name=zone_name,
         type="TXT",
         content='"v=spf1 -all"',
+        ttl=AUTO_TTL,
         zone_id=zone_id,
     )
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-domainkey",
         name="*._domainkey",
         type="TXT",
         content='"v=DKIM1; p="',
+        ttl=AUTO_TTL,
         zone_id=zone_id,
     )
 
@@ -78,6 +82,8 @@ def create_root_redirect(
     if all_traffic:
         expression = "true"
 
+    # https://github.com/pulumi/pulumi-cloudflare/issues/1213
+    # BLOCKED
     cloudflare.Ruleset(
         f"{brn}-root-redirect",
         name="Redirect all",
@@ -95,7 +101,7 @@ def create_root_redirect(
                             value=target
                         ),
                         preserve_query_string=False,
-                    )
+                    ),
                 ),
             ),
         ],
@@ -111,10 +117,11 @@ def create_hibp_verification(
     """
     brn = zone_to_name(zone_name)
 
-    cloudflare.Record(
+    cloudflare.DnsRecord(
         f"{brn}-record-hibp-verification",
         name=zone_name,
         type="TXT",
         content=f'"have-i-been-pwned-verification={verification_id}"',
+        ttl=AUTO_TTL,
         zone_id=zone_id,
     )
