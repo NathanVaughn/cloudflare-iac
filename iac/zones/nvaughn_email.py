@@ -14,13 +14,11 @@ BRN = utils.zone_to_name(ZONE_NAME)
 VANITY_EMAIL = f"nath@{ZONE_NAME}"
 
 # https://github.com/pulumi/pulumi-cloudflare/issues/1306
-# BLOCKED
 zone = cloudflare.Zone(
     f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
 # https://github.com/pulumi/pulumi-cloudflare/issues/1232
-# BLOCKED
 zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
 # sendgrid records

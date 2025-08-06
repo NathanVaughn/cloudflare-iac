@@ -8,13 +8,11 @@ ZONE_NAME = "nathanv.app"
 BRN = utils.zone_to_name(ZONE_NAME)
 
 # https://github.com/pulumi/pulumi-cloudflare/issues/1306
-# BLOCKED
 zone = cloudflare.Zone(
     f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
 
 # https://github.com/pulumi/pulumi-cloudflare/issues/1232
-# BLOCKED
 cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
 # have i been pwned verification

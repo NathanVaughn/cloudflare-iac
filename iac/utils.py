@@ -83,7 +83,6 @@ def create_root_redirect(
         expression = "true"
 
     # https://github.com/pulumi/pulumi-cloudflare/issues/1213
-    # BLOCKED
     cloudflare.Ruleset(
         f"{brn}-root-redirect",
         name="Redirect all",
