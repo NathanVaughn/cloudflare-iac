@@ -13,6 +13,8 @@ BRN = utils.zone_to_name(ZONE_NAME)
 
 VANITY_EMAIL = f"nath@{ZONE_NAME}"
 
+# https://github.com/pulumi/pulumi-cloudflare/issues/1306
+# BLOCKED
 zone = cloudflare.Zone(
     f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
@@ -47,6 +49,17 @@ cloudflare.DnsRecord(
     name="s2._domainkey",
     type="CNAME",
     content="s2.domainkey.u14911081.wl082.sendgrid.net",
+    proxied=False,
+    ttl=AUTO_TTL,
+    zone_id=zone.id,
+)
+
+# maileroo dkim
+cloudflare.DnsRecord(
+    f"{BRN}-record-maileroo-dkim",
+    name="mta._domainkey",
+    type="TXT",
+    content='"v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAufpdIXXcuO5duN0RyDQZt3VaW9D0cNprulrX7wLgQIlKu7p0bTJq3cEpjZ3urJ6MadLX9QrDEEop5LGBKGdZueCOAdwkxZfW5Pz3DYwps8rZ71jHmofVmuDnauVmx1jnMFy0rR0ufq4EKyJFBJLdVuJw1J2dBJ/aZeQLtHgvjKmQ3dKrex4WjnnJCscab/KJnBsDlfeExCYBMpZSTICw9qJc94XkrxGmOuHrBjea4oDgnPMeiGMOcODca86BS8s26kXk6C2VisMIfCVWZ289VpBWe3KLn5tMNzFrJVvREcjil5oXyd+aj5oJ7nfZY3ehyC6mLZg7r1COUY9TRCBk5wIDAQAB"',
     proxied=False,
     ttl=AUTO_TTL,
     zone_id=zone.id,
@@ -150,12 +163,15 @@ mta_sts_worker = cloudflare.WorkersScript(
 cloudflare.WorkersCustomDomain(
     f"{BRN}-mta-sts-worker-domain",
     account_id=CLOUDFLARE_ACCOUNT_ID,
-    hostname=mta_sts_worker_record.name,
+    environment="production",
+    hostname=f"mta-sts.{ZONE_NAME}",
     service=mta_sts_worker.script_name,
     zone_id=zone.id,
 )
 
 # email forwarding
+cloudflare.EmailRoutingSettings(f"{BRN}-email-routing-settings", zone_id=zone.id)
+
 cloudflare.EmailRoutingAddress(
     f"{BRN}-email-routing-address",
     account_id=CLOUDFLARE_ACCOUNT_ID,

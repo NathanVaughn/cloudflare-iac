@@ -7,6 +7,8 @@ from iac.constants import AUTO_TTL, ZONE_TYPE
 ZONE_NAME = "lksg.me"
 BRN = utils.zone_to_name(ZONE_NAME)
 
+# https://github.com/pulumi/pulumi-cloudflare/issues/1306
+# BLOCKED
 zone = cloudflare.Zone(
     f"{BRN}-zone", name=ZONE_NAME, account={"id": CLOUDFLARE_ACCOUNT_ID}, type=ZONE_TYPE
 )
