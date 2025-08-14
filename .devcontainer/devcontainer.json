@@ -21,7 +21,8 @@
                 "shardulm94.trailing-spaces",
                 "redhat.vscode-yaml",
                 "pulumi.pulumi-lsp-client",
-                "rangav.vscode-thunder-client"
+                "rangav.vscode-thunder-client",
+                "twixes.pypi-assistant"
             ]
         }
     },
