@@ -21,6 +21,7 @@ pages_configs = [
     PagesConfig("blog", "blog"),
     PagesConfig("links", "links"),
     PagesConfig("pay", "pay"),
+    PagesConfig("go", "go"),
 ]
 
 # https://github.com/pulumi/pulumi-cloudflare/issues/1306
@@ -81,13 +82,19 @@ for pc in pages_configs:
     )
 
     # create the project
+
+    # url shortener doesn't need a build command
+    cmd = "npm run build"
+    if pc.name == "go":
+        cmd = ""
+
     branch = "main"
     cloudflare.PagesProject(
         f"{BRN}-pages-project-{pc.name}",
         account_id=CLOUDFLARE_ACCOUNT_ID,
         name=project_name,
         build_config=cloudflare.PagesProjectBuildConfigArgs(
-            build_caching=True, build_command="npm run build", destination_dir="public"
+            build_caching=True, build_command=cmd, destination_dir="public"
         ),
         production_branch=branch,
         source=cloudflare.PagesProjectSourceArgs(
@@ -157,15 +164,15 @@ cloudflare.DnsRecord(
 )
 
 # link shortener
-cloudflare.DnsRecord(
-    f"{BRN}-record-dub-co",
-    name="go",
-    type="CNAME",
-    content="cname.dub.co",
-    proxied=False,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
+# cloudflare.DnsRecord(
+#     f"{BRN}-record-dub-co",
+#     name="go",
+#     type="CNAME",
+#     content="cname.dub.co",
+#     proxied=False,
+#     ttl=AUTO_TTL,
+#     zone_id=zone.id,
+# )
 
 # R2 bucket
 cloudflare.DnsRecord(
