@@ -104,7 +104,7 @@ for pc in pages_configs:
                 repo_name=domain,
                 production_branch=branch,
                 pr_comments_enabled=True,
-                deployments_enabled=True,
+                preview_deployment_setting="all",
                 production_deployments_enabled=True,
             ),
         ),

@@ -11,8 +11,10 @@
         "pulumi-cloudflare==6.11.0"
     ]
 
+[dependency-groups]
+    dev = ["pre-commit>=3.2.0"]
+
 [tool.uv]
-    dev-dependencies = ["pre-commit>=3.2.0"]
     package          = false
 
 [tool.pyright]
