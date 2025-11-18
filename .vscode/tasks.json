@@ -13,12 +13,17 @@
         },
         {
             "label": "update",
-            "command": "uv run wrapper.py pulumi update --stack prod",
+            "command": "pulumi update --stack prod",
             "type": "shell"
         },
         {
             "label": "preview",
-            "command": "uv run wrapper.py pulumi preview --stack prod",
+            "command": "pulumi preview --stack prod",
+            "type": "shell"
+        },
+        {
+            "label": "refresh",
+            "command": "pulumi refresh --stack prod",
             "type": "shell"
         }
     ]

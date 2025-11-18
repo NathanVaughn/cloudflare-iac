@@ -31,7 +31,7 @@ vtr update
 Follow Pulumi documentation, but usually like
 
 ```bash
-python wrapper.py pulumi import cloudflare:index/<resource type> <resource name> <account_id>/<project_name>/<domain-name>
+pulumi import cloudflare:index/<resource type> <resource name> <account_id>/<project_name>/<domain-name>
 ```
 
 Alternatively, this can be done in [bulk](https://www.pulumi.com/learn/importing/bulk-importing/).
