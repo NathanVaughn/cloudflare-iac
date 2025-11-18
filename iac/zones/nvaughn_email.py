@@ -21,37 +21,6 @@ zone = cloudflare.Zone(
 # https://github.com/pulumi/pulumi-cloudflare/issues/1232
 zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 
-# sendgrid records
-cloudflare.DnsRecord(
-    f"{BRN}-record-sendgrid1",
-    name="em2294",
-    type="CNAME",
-    content="u14911081.wl082.sendgrid.net",
-    proxied=False,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
-
-cloudflare.DnsRecord(
-    f"{BRN}-record-sendgrid2",
-    name="s1._domainkey",
-    type="CNAME",
-    content="s1.domainkey.u14911081.wl082.sendgrid.net",
-    proxied=False,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
-
-cloudflare.DnsRecord(
-    f"{BRN}-record-sendgrid3",
-    name="s2._domainkey",
-    type="CNAME",
-    content="s2.domainkey.u14911081.wl082.sendgrid.net",
-    proxied=False,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
-
 # maileroo dkim
 cloudflare.DnsRecord(
     f"{BRN}-record-maileroo-dkim",
