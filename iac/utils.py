@@ -42,7 +42,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
 
     cloudflare.DnsRecord(
         f"{brn}-record-dmarc",
-        name="_dmarc",
+        name=f"_dmarc.{zone_name}",
         type="TXT",
         content='"v=DMARC1; p=reject; sp=reject;"',
         ttl=AUTO_TTL,
@@ -60,7 +60,7 @@ def reject_emails(zone_id: pulumi.Input[str], zone_name: str) -> None:
 
     cloudflare.DnsRecord(
         f"{brn}-record-domainkey",
-        name="*._domainkey",
+        name=f"*._domainkey.{zone_name}",
         type="TXT",
         content='"v=DKIM1; p="',
         ttl=AUTO_TTL,

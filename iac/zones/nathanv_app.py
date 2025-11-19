@@ -35,11 +35,13 @@ settings = {
     "rocket_loader": "off",  # this caused problems in the past
     "security_level": "medium",
     "security_header": {
-        "enabled": True,
-        "include_subdomains": True,
-        "preload": True,
-        "nosniff": True,
-        "max_age": 60 * 60 * 24 * 30 * 6,  # seconds in 6 months
+        "strict_transport_security": {
+            "enabled": True,
+            "include_subdomains": True,
+            "preload": True,
+            "nosniff": True,
+            "max_age": 60 * 60 * 24 * 30 * 6,  # seconds in 6 months
+        }
     },
     "ssl": "strict",
 }

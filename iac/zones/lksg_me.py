@@ -20,7 +20,7 @@ old_cnames = ["www", "cdn", "dev-cdn", "dev", "status"]
 for oc in old_cnames:
     cloudflare.DnsRecord(
         f"{BRN}-record-{oc}",
-        name=oc,
+        name=f"{oc}.{ZONE_NAME}",
         type="CNAME",
         content=ZONE_NAME,
         proxied=True,
@@ -31,7 +31,7 @@ for oc in old_cnames:
 # github verification
 cloudflare.DnsRecord(
     f"{BRN}-record-github-verification",
-    name="_github-challenge-linkspring",
+    name=f"_github-challenge-linkspring.{ZONE_NAME}",
     type="TXT",
     content='"45d26e5df8"',
     ttl=AUTO_TTL,

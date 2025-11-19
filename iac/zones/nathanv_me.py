@@ -113,7 +113,7 @@ for pc in pages_configs:
 # github verification
 cloudflare.DnsRecord(
     f"{BRN}-record-github-pages-verification",
-    name="_github-pages-challenge-nathanvaughn",
+    name=f"_github-pages-challenge-nathanvaughn.{ZONE_NAME}",
     type="TXT",
     content='"61c0f594d3a99e1767d97f89802854"',
     ttl=AUTO_TTL,
@@ -146,7 +146,7 @@ cloudflare.DnsRecord(
 # discord domain verification
 cloudflare.DnsRecord(
     f"{BRN}-record-discord-verification",
-    name="_discord",
+    name=f"_discord.{ZONE_NAME}",
     type="TXT",
     content='"dh=f320e6ec6a011d45b30580e2810e76df02c29824"',
     ttl=AUTO_TTL,
@@ -156,23 +156,13 @@ cloudflare.DnsRecord(
 # bluesky domain verification
 cloudflare.DnsRecord(
     f"{BRN}-record-bluesky-verification",
-    name="_atproto",
+    name=f"_atproto.{ZONE_NAME}",
     type="TXT",
     content='"did=did:plc:w5ao3j763odkgrb6d3drjebv"',
     ttl=AUTO_TTL,
     zone_id=zone.id,
 )
 
-# link shortener
-# cloudflare.DnsRecord(
-#     f"{BRN}-record-dub-co",
-#     name="go",
-#     type="CNAME",
-#     content="cname.dub.co",
-#     proxied=False,
-#     ttl=AUTO_TTL,
-#     zone_id=zone.id,
-# )
 
 # R2 bucket
 cloudflare.DnsRecord(
@@ -202,13 +192,15 @@ settings = {
     "rocket_loader": "off",  # this caused problems in the past
     "security_level": "low",  # just static sites
     "security_header": {
-        "enabled": True,
-        "include_subdomains": True,
-        "preload": True,
-        "nosniff": True,
-        "max_age": 60 * 60 * 24 * 30 * 6,  # seconds in 6 months
+        "strict_transport_security": {
+            "enabled": True,
+            "include_subdomains": True,
+            "preload": True,
+            "nosniff": True,
+            "max_age": 60 * 60 * 24 * 30 * 6,  # seconds in 6 months
+        }
     },
-    "ssl": "flexible",  # github didn't have SSL, could maybe upgrade to strict
+    "ssl": "strict",  # github didn't have SSL, could maybe upgrade to strict
 }
 
 for setting_id, value in settings.items():

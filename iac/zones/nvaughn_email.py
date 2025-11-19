@@ -24,7 +24,7 @@ zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 # maileroo dkim
 cloudflare.DnsRecord(
     f"{BRN}-record-maileroo-dkim",
-    name="mta._domainkey",
+    name=f"mta._domainkey.{ZONE_NAME}",
     type="TXT",
     content='"v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAufpdIXXcuO5duN0RyDQZt3VaW9D0cNprulrX7wLgQIlKu7p0bTJq3cEpjZ3urJ6MadLX9QrDEEop5LGBKGdZueCOAdwkxZfW5Pz3DYwps8rZ71jHmofVmuDnauVmx1jnMFy0rR0ufq4EKyJFBJLdVuJw1J2dBJ/aZeQLtHgvjKmQ3dKrex4WjnnJCscab/KJnBsDlfeExCYBMpZSTICw9qJc94XkrxGmOuHrBjea4oDgnPMeiGMOcODca86BS8s26kXk6C2VisMIfCVWZ289VpBWe3KLn5tMNzFrJVvREcjil5oXyd+aj5oJ7nfZY3ehyC6mLZg7r1COUY9TRCBk5wIDAQAB"',
     proxied=False,
@@ -35,7 +35,7 @@ cloudflare.DnsRecord(
 # https://developers.cloudflare.com/email-routing/setup/mta-sts/
 cloudflare.DnsRecord(
     f"{BRN}-record-_mta-sts",
-    name="_mta-sts",
+    name=f"_mta-sts.{ZONE_NAME}",
     type="CNAME",
     content="_mta-sts.mx.cloudflare.net",
     proxied=False,
@@ -49,7 +49,7 @@ mta_sts_worker_record = utils.create_empty_record(zone.id, ZONE_NAME, "mta-sts")
 # MX records
 cloudflare.DnsRecord(
     f"{BRN}-record-mx1",
-    name=zone.name,
+    name=ZONE_NAME,
     type="MX",
     content="route1.mx.cloudflare.net",
     priority=38,
@@ -59,7 +59,7 @@ cloudflare.DnsRecord(
 
 cloudflare.DnsRecord(
     f"{BRN}-record-mx2",
-    name=zone.name,
+    name=ZONE_NAME,
     type="MX",
     content="route2.mx.cloudflare.net",
     priority=70,
@@ -69,7 +69,7 @@ cloudflare.DnsRecord(
 
 cloudflare.DnsRecord(
     f"{BRN}-record-mx3",
-    name=zone.name,
+    name=ZONE_NAME,
     type="MX",
     content="route3.mx.cloudflare.net",
     priority=2,
@@ -80,7 +80,7 @@ cloudflare.DnsRecord(
 # dmarc and spf
 cloudflare.DnsRecord(
     f"{BRN}-record-dmarc",
-    name="_dmarc",
+    name=f"_dmarc.{ZONE_NAME}",
     type="TXT",
     content='"v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:8f1ceab69df742f2a564c0a55b6eec75@dmarc-reports.cloudflare.net"',
     ttl=AUTO_TTL,
@@ -99,7 +99,7 @@ cloudflare.DnsRecord(
 # BIMI
 cloudflare.DnsRecord(
     f"{BRN}-record-bimi",
-    name="default._bimi",
+    name=f"default._bimi.{ZONE_NAME}",
     type="TXT",
     content='"v=BIMI1; l=https://nathanv.me/img/theme-colors/red.svg"',
     ttl=AUTO_TTL,
@@ -109,7 +109,7 @@ cloudflare.DnsRecord(
 # TLS reporting
 cloudflare.DnsRecord(
     f"{BRN}-record-smtp-tls",
-    name="_smtp._tls",
+    name=f"_smtp._tls.{ZONE_NAME}",
     type="TXT",
     content=f'"v=TLSRPTv1; rua=mailto:{VANITY_EMAIL}"',
     ttl=AUTO_TTL,
