@@ -100,6 +100,7 @@ for pc in pages_configs:
         source=cloudflare.PagesProjectSourceArgs(
             type="github",
             config=cloudflare.PagesProjectSourceConfigArgs(
+                deployments_enabled=True,  # deprecated, but without it, it thinks it needs an update very time
                 owner="NathanVaughn",
                 repo_name=domain,
                 production_branch=branch,

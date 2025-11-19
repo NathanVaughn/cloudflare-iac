@@ -25,8 +25,9 @@ zone_dnssec = cloudflare.ZoneDnssec(f"{BRN}-dnssec", zone_id=zone.id)
 cloudflare.DnsRecord(
     f"{BRN}-record-maileroo-dkim",
     name=f"mta._domainkey.{ZONE_NAME}",
-    type="TXT",
-    content='"v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAufpdIXXcuO5duN0RyDQZt3VaW9D0cNprulrX7wLgQIlKu7p0bTJq3cEpjZ3urJ6MadLX9QrDEEop5LGBKGdZueCOAdwkxZfW5Pz3DYwps8rZ71jHmofVmuDnauVmx1jnMFy0rR0ufq4EKyJFBJLdVuJw1J2dBJ/aZeQLtHgvjKmQ3dKrex4WjnnJCscab/KJnBsDlfeExCYBMpZSTICw9qJc94XkrxGmOuHrBjea4oDgnPMeiGMOcODca86BS8s26kXk6C2VisMIfCVWZ289VpBWe3KLn5tMNzFrJVvREcjil5oXyd+aj5oJ7nfZY3ehyC6mLZg7r1COUY9TRCBk5wIDAQAB"',
+    type="CNAME",
+    # use CNAME, as txt record had issues with being too long and getting split
+    content="epwftearxlandavwbsue7aye5tvdyhqq5coefifbas6jgpqyqbgq.dkim.maileroo.app",
     proxied=False,
     ttl=AUTO_TTL,
     zone_id=zone.id,
