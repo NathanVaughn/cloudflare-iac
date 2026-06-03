@@ -131,7 +131,7 @@ mta_sts_worker = cloudflare.WorkersScript(
 cloudflare.WorkersCustomDomain(
     f"{BRN}-mta-sts-worker-domain",
     account_id=CLOUDFLARE_ACCOUNT_ID,
-    environment="production",
+    # environment="production",
     hostname=f"mta-sts.{ZONE_NAME}",
     service=mta_sts_worker.script_name,
     zone_id=zone.id,

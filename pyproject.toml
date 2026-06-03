@@ -1,21 +1,18 @@
 [project]
-    name = "cloudflare-iac"
-    version = "0.1.0"
-    description = "My CloudFlare configuration as code"
-    license = { text = "MIT" }
-    readme = "README.md"
-    authors = [{ name = "Nathan Vaughn", email = "nath@nvaughn.email" }]
+    name            = "cloudflare-iac"
+    version         = "0.1.0"
+    description     = "My CloudFlare configuration as code"
+    license         = { text = "MIT" }
+    readme          = "README.md"
+    authors         = [{ name = "Nathan Vaughn", email = "nath@nvaughn.email" }]
     requires-python = ">=3.12"
-    dependencies = [
-        "pulumi>=3.205.0",
-        "pulumi-cloudflare==6.11.0"
-    ]
+    dependencies    = ["pulumi>=3.205.0", "pulumi-cloudflare==6.17.0"]
 
 [dependency-groups]
-    dev = ["pre-commit>=3.2.0"]
+    dev = ["pre-commit>=3.2.0", "pre-commit-uv>=4.2.1"]
 
 [tool.uv]
-    package          = false
+    package = false
 
 [tool.pyright]
     typeCheckingMode           = "basic"
