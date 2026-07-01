@@ -21,7 +21,8 @@
                 "redhat.vscode-yaml",
                 "pulumi.pulumi-lsp-client",
                 "rangav.vscode-thunder-client",
-                "twixes.pypi-assistant"
+                "twixes.pypi-assistant",
+                "astral-sh.ty"
             ]
         }
     },
