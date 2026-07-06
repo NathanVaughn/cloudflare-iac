@@ -175,6 +175,15 @@ cloudflare.DnsRecord(
     zone_id=zone.id,
 )
 
+cloudflare.DnsRecord(
+    "cdn.nathanv.me",
+    type="CNAME",
+    content="files.nathanv.me",
+    proxied=True,
+    ttl=AUTO_TTL,
+    zone_id=zone.id,
+)
+
 # email security
 utils.reject_emails(zone.id, ZONE_NAME)
 
