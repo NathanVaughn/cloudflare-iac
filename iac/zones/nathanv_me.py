@@ -176,7 +176,8 @@ cloudflare.DnsRecord(
 )
 
 cloudflare.DnsRecord(
-    "cdn.nathanv.me",
+    f"{BRN}-record-cdn",
+    name="cd.nathanv.me",
     type="CNAME",
     content="files.nathanv.me",
     proxied=True,
