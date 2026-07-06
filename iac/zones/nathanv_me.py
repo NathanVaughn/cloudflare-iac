@@ -179,7 +179,7 @@ cloudflare.DnsRecord(
     f"{BRN}-record-cdn",
     name="cdn.nathanv.me",
     type="CNAME",
-    content="files.nathanv.me",
+    content="public.r2.dev",
     proxied=True,
     ttl=AUTO_TTL,
     zone_id=zone.id,
