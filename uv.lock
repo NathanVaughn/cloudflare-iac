@@ -24,7 +24,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "pulumi", specifier = ">=3.205.0" },
-    { name = "pulumi-cloudflare", specifier = "==6.17.0" },
+    { name = "pulumi-cloudflare", specifier = "==6.18.0" },
 ]
 
 [package.metadata.requires-dev]
@@ -304,16 +304,16 @@ wheels = [
 
 [[package]]
 name = "pulumi-cloudflare"
-version = "6.17.0"
+version = "6.18.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "parver" },
     { name = "pulumi" },
     { name = "semver" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/72/d7/5a7198c27384e0e3f6fe67a31dc4319bd7224961f8e8b78098ab77cdf1be/pulumi_cloudflare-6.17.0.tar.gz", hash = "sha256:13ede1d982fc3a1420c3775ed5eafdc83ae19d1a0084b5a68d2337f644e25d15", size = 1744951, upload-time = "2026-05-22T15:22:38.852Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a5/34/a3f4ef01354a4a10081bb9ee5de4365dfe3a7a09b4ce77ed54ef8dbfe599/pulumi_cloudflare-6.18.0.tar.gz", hash = "sha256:74754e8cad6df9947d0f6c94ce4a095bf3b414e9750e672d60148365b630239c", size = 1891725, upload-time = "2026-07-16T17:48:33.839Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b6/11/d82a291b33486227e58f2b01f2908001609757f1abb29a7c1335ecd4a2bc/pulumi_cloudflare-6.17.0-py3-none-any.whl", hash = "sha256:eb82562d697e06ee09405a9d77675a7bf8652c39e66f6a9bde99b73b21596690", size = 2638454, upload-time = "2026-05-22T15:22:36.489Z" },
+    { url = "https://files.pythonhosted.org/packages/a6/54/363f8afa29f87c87fbd9be4643ed3b938b8726e6596f6ba060a73aa34df2/pulumi_cloudflare-6.18.0-py3-none-any.whl", hash = "sha256:e557d5a2550cb087ed83e66a1099fbdef58093d5d658f9739821f033c1f2e831", size = 2893259, upload-time = "2026-07-16T17:48:32.038Z" },
 ]
 
 [[package]]
