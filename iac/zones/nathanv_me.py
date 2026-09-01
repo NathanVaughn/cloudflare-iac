@@ -224,7 +224,10 @@ for setting_id, value in settings.items():
 
 # prevent AI bot scraping
 cloudflare.BotManagement(
-    f"{BRN}-bot-management", ai_bots_protection="block", zone_id=zone.id
+    f"{BRN}-bot-management",
+    ai_bots_protection="block",
+    auto_update_model=True,
+    zone_id=zone.id,
 )
 
 # redirect kubernetes api name to github repo
