@@ -139,7 +139,8 @@ cloudflare.WorkersCustomDomain(
 )
 
 # email forwarding
-cloudflare.EmailRoutingSettings(f"{BRN}-email-routing-settings", zone_id=zone.id)
+# For some reason this is busted
+# cloudflare.EmailRoutingSettings(f"{BRN}-email-routing-settings", zone_id=zone.id)
 
 cloudflare.EmailRoutingAddress(
     f"{BRN}-email-routing-address",

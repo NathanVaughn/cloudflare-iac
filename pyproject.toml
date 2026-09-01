@@ -6,13 +6,10 @@
     readme          = "README.md"
     authors         = [{ name = "Nathan Vaughn", email = "nath@nvaughn.email" }]
     requires-python = ">=3.12"
-    dependencies    = ["pulumi>=3.205.0", "pulumi-cloudflare==6.19.0"]
+    dependencies    = ["pulumi>=3.205.0", "pulumi-cloudflare>=6.19.0"]
 
 [dependency-groups]
-    dev = [
-    "prek>=0.4.5",
-]
+    dev = ["prek>=0.4.5"]
 
 [tool.uv]
     package = false
-
