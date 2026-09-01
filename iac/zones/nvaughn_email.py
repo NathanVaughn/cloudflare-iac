@@ -121,12 +121,13 @@ cloudflare.DnsRecord(
 utils.create_hibp_verification(zone.id, ZONE_NAME, "dweb_r05p6qt6pohhgwdcxp96ufk7")
 
 # MTA-STS worker
-mta_sts_worker = cloudflare.WorkersScript(
-    f"{BRN}-mta-sts-worker",
-    account_id=CLOUDFLARE_ACCOUNT_ID,
-    script_name="nvaughnemail-mta-sts",
-    content=open(os.path.join(FILES_DIR, "nvaughnemail-mta-sts.js")).read(),
-)
+with open(os.path.join(FILES_DIR, "nvaughnemail-mta-sts.js"), "r") as fp:
+    mta_sts_worker = cloudflare.WorkersScript(
+        f"{BRN}-mta-sts-worker",
+        account_id=CLOUDFLARE_ACCOUNT_ID,
+        script_name="nvaughnemail-mta-sts",
+        content=fp.read(),
+    )
 
 cloudflare.WorkersCustomDomain(
     f"{BRN}-mta-sts-worker-domain",
