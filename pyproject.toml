@@ -13,3 +13,8 @@
 
 [tool.uv]
     package = false
+
+[[tool.uv.index]]
+    name    = "pkgs"
+    url     = "https://pkgs.nathanv.app/pypi/simple"
+    default = true
