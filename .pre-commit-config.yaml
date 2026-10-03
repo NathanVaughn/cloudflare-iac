@@ -27,7 +27,7 @@ repos:
 -   hooks:
     -   id: ty
     repo: https://github.com/astral-sh/ty-pre-commit
-    rev: v0.0.83
+    rev: v0.0.84
 -   hooks:
     -   id: markdownlint
     repo: https://github.com/igorshubovych/markdownlint-cli
