@@ -57,18 +57,22 @@ for setting_id, value in settings.items():
 # root redirect rule
 utils.create_root_redirect(zone.id, ZONE_NAME, "https://nathanv.me")
 
+
 # cache immutable assets for 1 year
+
 cloudflare.Ruleset(
     f"{BRN}-cache-packages-rule",
     name="Cache package assets",
     kind="zone",
     phase="http_request_cache_settings",
     rules=[
+        # Example:
+        # /v2/docker.io/edrevo/dockerfile-plus/blobs/sha256:3cc8e449ce9f6e0752ede8f50a7334bf0c7b2d24d76da2ffae7aa6a729dd1da4
         cloudflare.RulesetRuleArgs(
             action="set_cache_settings",
             description="Cache Docker blobs for 1 year",
             expression=(
-                '(http.host eq "cr.nathanv.app" and http.request.method eq "GET" and http.request.uri.path wildcard r"/v2/*/blobs/*")'
+                '(http.host eq "cr.nathanv.app" and http.request.method eq "GET" and starts_with(http.request.uri.path, "/v2/") and http.request.uri.path contains "/blobs/sha256:")'
             ),
             enabled=True,
             action_parameters=cloudflare.RulesetRuleActionParametersArgs(
