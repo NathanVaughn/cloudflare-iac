@@ -78,7 +78,23 @@ cloudflare.Ruleset(
             action_parameters=cloudflare.RulesetRuleActionParametersArgs(
                 cache=True,
                 edge_ttl=cloudflare.RulesetRuleActionParametersEdgeTtlArgs(
-                    mode="override_origin", default=SECONDS_IN_A_YEAR
+                    mode="override_origin",
+                    default=SECONDS_IN_A_YEAR,
+                    # avoid caching error responses
+                    status_code_ttls=[
+                        cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
+                            value=SECONDS_IN_A_YEAR,
+                            status_code_range=cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlStatusCodeRangeArgs(
+                                from_=0, to=399
+                            ),
+                        ),
+                        cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
+                            value=0,
+                            status_code_range=cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlStatusCodeRangeArgs(
+                                from_=400, to=999
+                            ),
+                        ),
+                    ],
                 ),
                 browser_ttl=cloudflare.RulesetRuleActionParametersBrowserTtlArgs(
                     mode="override_origin", default=SECONDS_IN_A_YEAR
@@ -95,7 +111,22 @@ cloudflare.Ruleset(
             action_parameters=cloudflare.RulesetRuleActionParametersArgs(
                 cache=True,
                 edge_ttl=cloudflare.RulesetRuleActionParametersEdgeTtlArgs(
-                    mode="override_origin", default=SECONDS_IN_A_YEAR
+                    mode="override_origin",
+                    default=SECONDS_IN_A_YEAR,
+                    status_code_ttls=[
+                        cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
+                            value=SECONDS_IN_A_YEAR,
+                            status_code_range=cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlStatusCodeRangeArgs(
+                                from_=0, to=399
+                            ),
+                        ),
+                        cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
+                            value=0,
+                            status_code_range=cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlStatusCodeRangeArgs(
+                                from_=400, to=999
+                            ),
+                        ),
+                    ],
                 ),
                 browser_ttl=cloudflare.RulesetRuleActionParametersBrowserTtlArgs(
                     mode="override_origin", default=SECONDS_IN_A_YEAR
