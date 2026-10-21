@@ -85,7 +85,7 @@ cloudflare.Ruleset(
                         cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
                             value=SECONDS_IN_A_YEAR,
                             status_code_range=cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlStatusCodeRangeArgs(
-                                from_=0, to=399
+                                from_=100, to=399
                             ),
                         ),
                         cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
@@ -117,7 +117,7 @@ cloudflare.Ruleset(
                         cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
                             value=SECONDS_IN_A_YEAR,
                             status_code_range=cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlStatusCodeRangeArgs(
-                                from_=0, to=399
+                                from_=100, to=399
                             ),
                         ),
                         cloudflare.RulesetRuleActionParametersEdgeTtlStatusCodeTtlArgs(
