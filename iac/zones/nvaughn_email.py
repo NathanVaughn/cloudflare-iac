@@ -48,35 +48,35 @@ cloudflare.DnsRecord(
 mta_sts_worker_record = utils.create_empty_record(zone.id, ZONE_NAME, "mta-sts")
 
 # MX records
-cloudflare.DnsRecord(
-    f"{BRN}-record-mx1",
-    name=ZONE_NAME,
-    type="MX",
-    content="route1.mx.cloudflare.net",
-    priority=38,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
+# cloudflare.DnsRecord(
+#     f"{BRN}-record-mx1",
+#     name=ZONE_NAME,
+#     type="MX",
+#     content="route1.mx.cloudflare.net",
+#     priority=38,
+#     ttl=AUTO_TTL,
+#     zone_id=zone.id,
+# )
 
-cloudflare.DnsRecord(
-    f"{BRN}-record-mx2",
-    name=ZONE_NAME,
-    type="MX",
-    content="route2.mx.cloudflare.net",
-    priority=70,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
+# cloudflare.DnsRecord(
+#     f"{BRN}-record-mx2",
+#     name=ZONE_NAME,
+#     type="MX",
+#     content="route2.mx.cloudflare.net",
+#     priority=70,
+#     ttl=AUTO_TTL,
+#     zone_id=zone.id,
+# )
 
-cloudflare.DnsRecord(
-    f"{BRN}-record-mx3",
-    name=ZONE_NAME,
-    type="MX",
-    content="route3.mx.cloudflare.net",
-    priority=2,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
+# cloudflare.DnsRecord(
+#     f"{BRN}-record-mx3",
+#     name=ZONE_NAME,
+#     type="MX",
+#     content="route3.mx.cloudflare.net",
+#     priority=2,
+#     ttl=AUTO_TTL,
+#     zone_id=zone.id,
+# )
 
 # dmarc and spf
 cloudflare.DnsRecord(

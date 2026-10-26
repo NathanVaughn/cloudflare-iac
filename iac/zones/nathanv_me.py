@@ -165,25 +165,25 @@ cloudflare.DnsRecord(
 
 
 # R2 bucket
-cloudflare.DnsRecord(
-    f"{BRN}-record-r2",
-    name="files.nathanv.me",
-    type="CNAME",
-    content="public.r2.dev",
-    proxied=True,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
+# cloudflare.DnsRecord(
+#     f"{BRN}-record-r2",
+#     name="files.nathanv.me",
+#     type="CNAME",
+#     content="public.r2.dev",
+#     proxied=True,
+#     ttl=AUTO_TTL,
+#     zone_id=zone.id,
+# )
 
-cloudflare.DnsRecord(
-    f"{BRN}-record-cdn",
-    name="cdn.nathanv.me",
-    type="CNAME",
-    content="public.r2.dev",
-    proxied=True,
-    ttl=AUTO_TTL,
-    zone_id=zone.id,
-)
+# cloudflare.DnsRecord(
+#     f"{BRN}-record-cdn",
+#     name="cdn.nathanv.me",
+#     type="CNAME",
+#     content="public.r2.dev",
+#     proxied=True,
+#     ttl=AUTO_TTL,
+#     zone_id=zone.id,
+# )
 
 # email security
 utils.reject_emails(zone.id, ZONE_NAME)
