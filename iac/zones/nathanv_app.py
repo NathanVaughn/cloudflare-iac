@@ -105,7 +105,7 @@ cloudflare.Ruleset(
             action="set_cache_settings",
             description="Cache package assets for 1 year",
             expression=(
-                '(http.host eq "pkgs.nathanv.app" and http.request.uri.path.extension in {"whl" "zip" "gz" "tgz"})'
+                '(http.host eq "pkgs.nathanv.app" and http.request.uri.path.extension in {"whl" "zip" "gz" "tgz" "deb"})'
             ),
             enabled=True,
             action_parameters=cloudflare.RulesetRuleActionParametersArgs(
