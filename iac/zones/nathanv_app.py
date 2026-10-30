@@ -136,3 +136,10 @@ cloudflare.Ruleset(
     ],
     zone_id=zone.id,
 )
+
+# block .env requests
+utils.create_firewall_ruleset(
+    zone.id,
+    ZONE_NAME,
+    [utils.create_block_env_requests()],
+)

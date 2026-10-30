@@ -124,3 +124,36 @@ def create_hibp_verification(
         ttl=AUTO_TTL,
         zone_id=zone_id,
     )
+
+
+def create_firewall_ruleset(
+    zone_id: pulumi.Input[str],
+    zone_name: str,
+    rules: list[cloudflare.RulesetRuleArgs],
+) -> None:
+    """
+    Create a custom firewall ruleset.
+    """
+    brn = zone_to_name(zone_name)
+
+    cloudflare.Ruleset(
+        f"{brn}-zone-firewall-ruleset",
+        zone_id=zone_id,
+        name="default",
+        description="",
+        kind="zone",
+        phase="http_request_firewall_custom",
+        rules=rules,
+    )
+
+
+def create_block_env_requests() -> cloudflare.RulesetRuleArgs:
+    """
+    Create a ruleset to block requests for .env files.
+    """
+    return cloudflare.RulesetRuleArgs(
+        action="block",
+        expression='(http.request.uri.path contains ".env") or (http.request.uri.query contains ".env")',
+        description="Block requests seeking environment files",
+        enabled=True,
+    )

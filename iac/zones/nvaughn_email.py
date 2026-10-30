@@ -127,6 +127,7 @@ with open(os.path.join(FILES_DIR, "nvaughnemail-mta-sts.js"), "r") as fp:
         account_id=CLOUDFLARE_ACCOUNT_ID,
         script_name="nvaughnemail-mta-sts",
         content=fp.read(),
+        main_module="worker.js",  # treat code as ES6 module
     )
 
 cloudflare.WorkersCustomDomain(
@@ -167,3 +168,10 @@ cloudflare.EmailRoutingRule(
 
 # root redirect rule
 utils.create_root_redirect(zone.id, ZONE_NAME, "https://nathanv.me")
+
+# block .env requests
+utils.create_firewall_ruleset(
+    zone.id,
+    ZONE_NAME,
+    [utils.create_block_env_requests()],
+)

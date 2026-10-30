@@ -45,3 +45,10 @@ utils.reject_emails(zone.id, ZONE_NAME)
 utils.create_root_redirect(
     zone.id, ZONE_NAME, "https://links.nathanv.me", all_traffic=True
 )
+
+# block .env requests
+utils.create_firewall_ruleset(
+    zone.id,
+    ZONE_NAME,
+    [utils.create_block_env_requests()],
+)
